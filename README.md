@@ -1,1 +1,1 @@
-# multirobotexplorationrendezvous
+# multirobot_exploration_rendezvous
