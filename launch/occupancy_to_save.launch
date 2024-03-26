@@ -1,0 +1,35 @@
+<launch>
+
+    <!-- world -->
+    <include file="$(find test_unknown_rendezvous)/launch/world.launch">
+        <arg name="use_gui" value="true"/>
+        <arg name="world_name" value="marty"/>
+    </include>
+
+     <!-- robot 1 -->
+    <include file="$(find test_unknown_rendezvous)/launch/one_robot.launch">
+        <arg name="robot_number" value="1"/>
+        <arg name="pose_x"       value="-1"/>
+        <arg name="pose_y"       value="1"/>
+        <arg name="pose_z"       value="0"/>
+        <arg name="slam"         value="false"/>
+        <arg name="move_base"    value="false"/>
+        <arg name="formation"    value="false"/>
+    </include>
+
+    <param name="map_name" value="marty"/>
+
+    <node 
+        name   = "public_map"
+        pkg    = "test_unknown_rendezvous"
+        type   = "public_map.py"
+        args   = ""
+        output = "screen"
+    />
+    
+    <!-- RVIZ ->
+    <include file="$(find test_unknown_rendezvous)/launch/rviz.launch">
+        <arg name="rviz_file" value="save_world"/>
+    </include> -->
+
+</launch>

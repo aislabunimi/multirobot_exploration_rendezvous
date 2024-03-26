@@ -1,0 +1,1 @@
+test_unknown_rendezvous/point_sec[] points

@@ -1,0 +1,89 @@
+<launch>
+
+    <arg name="how_many_robot" value="3"/>
+    <param name="explore-lite" value="false"/>
+    <arg name="cluster_radius" value="2.7"/>
+    <param name="cluster_radius" value="$(arg cluster_radius)"/>
+    <arg name="world" value="office2"/>
+    <param name="world" value="$(arg world)"/>
+
+    <!-- world -->
+    <include file="$(find test_unknown_rendezvous)/launch/world.launch">
+        <arg name="use_gui" value="true"/>
+        <arg name="world_name" value="office_2_empty"/>
+    </include>
+
+    <!-- robot 1 -->
+    <include file="$(find test_unknown_rendezvous)/launch/one_robot.launch">
+        <arg name="robot_number" value="1"/>
+        <arg name="pose_x"       value="-13"/>
+        <arg name="pose_y"       value="14"/>
+        <arg name="pose_z"       value="0"/>
+        <arg name="slam"         value="true"/>
+        <arg name="formation"    value="true"/>
+        <arg name="exploration"  value="true"/>
+        <arg name="blobbing"     value="true"/>
+    </include>
+
+    <!-- robot 2 -->
+    <include file="$(find test_unknown_rendezvous)/launch/one_robot.launch">
+        <arg name="robot_number" value="2"/>
+        <arg name="pose_x"       value="18"/>
+        <arg name="pose_y"       value="-5"/>
+        <arg name="pose_z"       value="0"/>
+        <arg name="slam"         value="true"/>
+        <arg name="formation"    value="true"/>
+        <arg name="exploration"  value="true"/>
+        <arg name="blobbing"     value="true"/>
+    </include>
+    
+    <!-- robot 3 -->
+    <include file="$(find test_unknown_rendezvous)/launch/one_robot.launch">
+        <arg name="robot_number" value="3"/>
+        <arg name="pose_x"       value="-16"/>
+        <arg name="pose_y"       value="-28"/>
+        <arg name="pose_z"       value="0"/>
+        <arg name="slam"         value="true"/>
+        <arg name="formation"    value="true"/>
+        <arg name="exploration"  value="true"/>
+        <arg name="blobbing"     value="true"/>
+    </include>
+
+
+
+    <!-- all_positions -->
+    <node 
+        name   = "pos_aggregator"
+        pkg    = "test_unknown_rendezvous"
+        type   = "pos_aggregator.py"
+        args   = "$(arg how_many_robot)"
+        output = "screen"
+    />
+    
+    <!-- cluster -->
+    <node 
+        name   = "cluster"
+        pkg    = "test_unknown_rendezvous"
+        type   = "cluster_controller.py"
+        args   = "$(arg cluster_radius) $(arg how_many_robot)"
+        output = "screen"
+    />
+
+    <node pkg="multirobot_map_merge" type="map_merge" respawn="false" name="map_merge" output="log">
+        <param name="robot_map_topic" value="map"/>
+        <param name="robot_namespace" value="robot"/>
+        <param name="merged_map_topic" value="map"/>
+        <param name="world_frame" value="map"/>
+        <param name="known_init_poses" value="true"/>
+        <param name="merging_rate" value="2"/>
+        <param name="discovery_rate" value="0.5"/>
+        <param name="estimation_rate" value="0.1"/>
+        <param name="estimation_confidence" value="1.0"/>
+    </node>
+
+    <!-- RVIZ -->
+    <include file="$(find test_unknown_rendezvous)/launch/rviz.launch">
+        <arg name="rviz_file" value="test_8"/>
+    </include>
+
+</launch>

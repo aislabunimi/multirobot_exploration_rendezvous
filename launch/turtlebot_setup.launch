@@ -1,0 +1,39 @@
+<launch>
+
+    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+    <arg name="tf_name" doc="nome del singolo robot per casi multirobot"/>
+    <arg name="x"  default="0" doc="posizione x del robot nella mappa"/>
+    <arg name="y"  default="0" doc="posizione y del robot nella mappa"/>
+    <arg name="z"  default="0" doc="posizione z del robot nella mappa"/>
+
+    <param 
+        name="robot_description"
+        command="$(find xacro)/xacro '$(find test_unknown_rendezvous)/urdf/turtlebot3_$(arg model).urdf.xacro'"
+    />
+    <node 
+        name="spawn_urdf"
+        pkg ="gazebo_ros" 
+        type="spawn_model"
+        args="-urdf -model turtlebot3_$(arg tf_name) -param robot_description -x $(arg x) -y $(arg y) -z $(arg z)" 
+    />
+    <node 
+        name  ="robot_state_publisher" 
+        pkg   ="robot_state_publisher" 
+        type  ="robot_state_publisher" 
+        output="log"
+    />
+    <node 
+        name="joint_state_publisher" 
+        pkg ="joint_state_publisher" 
+        type="joint_state_publisher"
+    />
+
+    <node 
+        pkg ="tf" 
+        type="static_transform_publisher" 
+        if  ="$(eval tf_name != '')"
+        name="world_to_$(arg tf_name)_tf_broadcaster"  
+        args="0 0 0 0 0 0 /map /$(arg tf_name)/map 100"
+    />
+    
+</launch>

@@ -1,0 +1,105 @@
+<launch>
+
+    <arg name="robot_number" default="0"/>
+    <!-- NON USARE robot_name PERSONALIZZATI, DIRE SOLTANTO IL robot_number -->
+    <arg name="robot_name"   default="robot$(arg robot_number)"/>
+    <arg name="pose_x"       default="0"        doc="posizione x del robot nella mappa"/>
+    <arg name="pose_y"       default="0"        doc="posizione y del robot nella mappa"/>
+    <arg name="pose_z"       default="0"        doc="posizione z del robot nella mappa"/>
+    <arg name="slam"         default="false"/>
+    <arg name="move_base"    default="true"/>
+    <arg name="exploration"  default="false"/>
+    <arg name="formation"    default="true"/>
+    <arg name="blobbing"     default="false"/>
+
+    <group ns="$(arg robot_name)">
+        <param name="tf_prefix"   value="$(arg robot_name)"/>
+        
+        <!-- turtlebot setup -->
+        <include file="$(find test_unknown_rendezvous)/launch/turtlebot_setup.launch">
+            <arg name="tf_name" value="$(arg robot_name)"/>
+            <arg name="x"       value="$(arg pose_x)"/>
+            <arg name="y"       value="$(arg pose_y)"/>
+            <arg name="z"       value="$(arg pose_z)"/>
+        </include>
+
+        <!-- SLAM -->
+        <group if="$(arg slam)">
+            <include file="$(find test_unknown_rendezvous)/launch/gmapping.launch">
+                <arg name="tf_name" value="$(arg robot_name)"/>
+            </include>
+        </group>
+
+        <!-- move_base -->
+        <group if="$(arg move_base)">
+            <include file="$(find test_unknown_rendezvous)/launch/move_base.launch">
+                <arg name="tf_name" value="$(arg robot_name)"/>
+            </include>
+        </group>
+
+        <!-- exploration -->
+        <group if="$(arg exploration)">
+            <include file="$(find test_unknown_rendezvous)/launch/frontier_search.launch">
+                <arg name="tf_name" value="$(arg robot_name)"/>
+            </include>
+        </group>
+
+        <!-- pose_broadcast CIAO, NON CHIUDERE FIREFOX CHE STO SCARICANDO COSE PER UN ALTRO TESISTA; GRAZIE MILLE MICHELE
+            OK!
+         -->
+        <node 
+            name   = "positions_bd"
+            pkg    = "test_unknown_rendezvous"
+            type   = "pos_broadcast.py"
+            args   = "$(arg robot_number)"
+            output = "screen"
+        />
+
+        <!-- formation control -->
+        <node 
+            name   = "formation"
+            pkg    = "test_unknown_rendezvous"
+            type   = "formation.py"
+            args   = "1.2"
+            output = "screen"
+            if     = "$(arg formation)"
+        />
+
+        <!-- move controller -->
+        <node 
+            name   = "move_controller"
+            pkg    = "test_unknown_rendezvous"
+            type   = "move_controller.py"
+            output = "screen"
+            if     = "$(arg exploration)"
+        />
+
+        <!-- laser-scan filter -->
+        <node 
+            name   = "scan_filter"
+            pkg    = "test_unknown_rendezvous"
+            type   = "scan_filter.py"
+            output = "screen"
+            if = "false"
+        />
+
+        <!-- blobbing -->
+        <node 
+            name   = "visited_area"
+            pkg    = "test_unknown_rendezvous"
+            type   = "blob_area.py"
+            output = "screen"
+            args   = "$(arg robot_number)"
+            if     = "$(arg blobbing)"
+        />
+
+        <group ns="map_merge">
+            <param name="init_pose_x"   value="$(arg pose_x)"/>
+            <param name="init_pose_y"   value="$(arg pose_y)"/>
+            <param name="init_pose_z"   value="$(arg pose_z)"/>
+            <param name="init_pose_yaw" value="0"  />
+        </group>
+
+    </group>
+
+</launch>

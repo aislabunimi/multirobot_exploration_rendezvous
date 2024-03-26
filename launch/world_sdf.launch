@@ -1,0 +1,7 @@
+<launch>
+
+  <!-- Start Gazebo with a blank world -->
+  <include file="$(find map2gazebo)/launch/gazebo_world.launch">
+  </include>
+
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="rviz_file" default="test"/>
+
+    <node 
+        pkg     ="rviz" 
+        type    ="rviz" 
+        name    ="rviz" 
+        required="true"
+        args    ="-d $(find test_unknown_rendezvous)/rviz/$(arg rviz_file).rviz"
+    />
+
+</launch>
