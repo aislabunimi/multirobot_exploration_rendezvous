@@ -8,12 +8,12 @@
     <arg name="world" value="office_big"/>
     <param name="world" value="$(arg world)"/>
 
-    <!-- world 
+    <!-- world
     <include file="$(find journal_rendezvous)/launch/world_sdf.launch">
     </include> -->
 
     <!-- world -->
-    <include file="$(find test_unknown_rendezvous)/launch/world.launch">
+    <include file="$(find journal_rendezvous)/launch/world.launch">
         <arg name="use_gui" value="true"/>
         <arg name="world_name" value="$(arg world)"/>
     </include>
