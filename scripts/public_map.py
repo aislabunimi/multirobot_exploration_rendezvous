@@ -9,7 +9,7 @@ if __name__ == '__main__':
     rospy.init_node('public_map')
 
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'Cluster Controller: creata connessione db')

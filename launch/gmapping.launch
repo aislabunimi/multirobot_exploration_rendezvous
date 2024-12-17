@@ -9,16 +9,14 @@
     <param name="odom_frame" value="$(arg slash)$(arg tf_name)$(arg slash)odom"/>
     <param name="base_frame" value="$(arg slash)$(arg tf_name)$(arg slash)base_footprint"/>
     <param name="map_frame"  value="$(arg slash)$(arg tf_name)$(arg slash)map"/>
-    <rosparam command="load" file="$(find test_unknown_rendezvous)/params/gmapping_params.yaml" />
+    <rosparam command="load" file="$(find journal_rendezvous)/params/gmapping_params.yaml" />
     <!-- --> 
     <remap from="scan" to="scan_filtered"/>
   </node>
   
-  
   <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
-    <rosparam command="load" file="$(find test_unknown_rendezvous)/params/lidar_config.yaml"/>
+    <rosparam command="load" file="$(find journal_rendezvous)/params/lidar_config.yaml"/>
     <remap from="base_scan" to="scan"/>
   </node>
-
 
 </launch>

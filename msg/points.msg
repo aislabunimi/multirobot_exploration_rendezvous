@@ -1,1 +1,1 @@
-test_unknown_rendezvous/point_sec[] points
+journal_rendezvous/point_sec[] points

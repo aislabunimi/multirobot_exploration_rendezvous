@@ -2,7 +2,7 @@
 import rospy, re
 from math import inf
 from sensor_msgs.msg import LaserScan
-from test_unknown_rendezvous.msg import cluster
+from journal_rendezvous.msg import cluster
     
 def filter_scan(ls):
     if leader:

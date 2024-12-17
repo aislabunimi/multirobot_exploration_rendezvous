@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy, sys, rospkg, sqlite3, rosnode, time
 from sqlite3 import Error
-from test_unknown_rendezvous.msg import send_pos
+from journal_rendezvous.msg import send_pos, cluster
 from nav_msgs.msg import Odometry
 
 def update_pos(odom_update):
@@ -14,6 +14,8 @@ def pub_pos(_):
     
 def log_pos(_):
     global positions_buffer
+    if FINISH: #rendezvous
+        return
     if len(positions_buffer)<=max_len:
         positions_buffer.append(
             (
@@ -29,6 +31,10 @@ def log_pos(_):
                 new_pos.position.pose.pose.position.x,
                 new_pos.position.pose.pose.position.y,
             )]
+
+def check_rendezvous(cluster_msg):
+    global FINISH
+    FINISH = cluster_msg.all_together
 
 def add_data():
     print(f'[{robot_id}] ADDED POSITION DATA ({len(positions_buffer)}) %%%%%%%%%%%%%%%%%%%%%%%%%%')
@@ -48,10 +54,14 @@ if __name__ == '__main__':
     max_len = 2500 #numero massimo di posizioni salvate prima di inserirle nel db
     positions_buffer = []
 
-    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False):{} #aspetto pos_aggregator 
+    FINISH = False
+    rospy.Subscriber('cluster', cluster, check_rendezvous)
+
+    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator
+        time.sleep(.5)
 
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'[{robot_id}] pos_broadcast: creata connessione db')

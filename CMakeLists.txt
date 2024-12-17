@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(test_unknown_rendezvous)
+project(journal_rendezvous)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -120,10 +120,10 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES beginner_tutorials
-#  CATKIN_DEPENDS rospy
+#  LIBRARIES journal_rendezvous
+#  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS message_runtime
 )
 
 ###########
@@ -139,7 +139,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/beginner_tutorials.cpp
+#   src/${PROJECT_NAME}/journal_rendezvous.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -150,7 +150,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/beginner_tutorials_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/journal_rendezvous_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -214,7 +214,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_journal_rendezvous.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
@@ -234,5 +234,6 @@ catkin_install_python(
     scripts/blob_area.py
     scripts/save_map.py
     scripts/public_map.py
+    scripts/test_ping.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

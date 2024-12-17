@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
-import rospy, re, actionlib, tf2_ros, tf2_geometry_msgs, time, random, rospkg, sqlite3, pickle, zstd, os, rosnode
+import rospy, re, actionlib, tf2_ros, tf2_geometry_msgs, time, random
+import rospkg, sqlite3, pickle, zlib, os, rosnode, base64
 from sqlite3 import Error
-from shapely import LineString, Point as sPoint, Polygon
-from math import isnan
+from shapely import LineString, Point as sPoint, Polygon, affinity
+from math import isnan, inf
 from numpy import round as npRound
 from visualization_msgs.msg import MarkerArray, Marker
 from std_msgs.msg import ColorRGBA
-from test_unknown_rendezvous.msg import cluster, logging
+from journal_rendezvous.msg import cluster, logging
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from geometry_msgs.msg import PoseStamped, Point, Twist
 from nav_msgs.msg import Odometry, OccupancyGrid
 from gazebo_msgs.srv import DeleteModel # For deleting models from the environment
         
+def object_to_dict(Obj):
+    if '__slots__' not in dir(Obj): return Obj
+    return {key:object_to_dict(Obj.__getattribute__(key)) for key in Obj.__slots__}
+
 def mb_goal(goal):
     print(f'[{robot_id}] send Goal')
     '''
@@ -64,7 +69,7 @@ def getFrontiersB(markerArray):
             for m in markerArray.markers]
 
 def updateELFrontiers(frontiersArray): #update Explore Lite frontiers
-    global frontiers, my_cluster_aux, other_frontiers, blob_frontiers, marker_id
+    global frontiers, my_cluster_aux, other_frontiers, blob_frontiers, marker_id, last_marker_id
     if not leader or len(frontiersArray.markers)==0:
         print(f'[{robot_id}] not leader')
         return
@@ -84,10 +89,8 @@ def updateELFrontiers(frontiersArray): #update Explore Lite frontiers
             except:
                 print(f'[{robot_id}] Frontiere non ricevute XXXXXXXXXXXXX')
         my_cluster_aux += new_entries
-    
+    delete_markers()
     MA = MarkerArray()
-    MA.markers = [getMarker(marker_id-1, [], remove=True)]
-    debug.publish(MA)
     MA.markers = [
         getMarker(
             marker_id, 
@@ -97,9 +100,13 @@ def updateELFrontiers(frontiersArray): #update Explore Lite frontiers
             ]
         )
     ]
+    marker_id += 1
+    for f in (frontiers+blob_frontiers+other_frontiers):
+        if (f[0].x, f[0].y) not in banned_frontiers:
+            MA.markers += [getMarker(marker_id,[(f[0].x, f[0].y)],text=str(round(f[1],2)))]
+            marker_id += 1
     #MA.markers = [getMarker(marker_id, [(c[0],c[1]) for f in all_frontiers for c in f[2].coords])]
     debug.publish(MA)
-    marker_id += 1
 
 def updateBFrontiers(markerArray):
     global blob_frontiers
@@ -119,19 +126,24 @@ def updateGoal(_):
         log_str = logging()
         log_str.str = f"RENDEZVOUS"
         topic_logger.publish(log_str)
+        sql = 'UPDATE Executions SET rendezvous=TRUE WHERE id=?'
+        conn.cursor().execute(sql, (execution_nr,))
+        conn.commit()
         add_final_map(
             execution_nr,
             robot_id+1,
-            zstd.compress(
-                pickle.dumps(rospy.wait_for_message(f'/robot{robot_id+1}/map', OccupancyGrid))
-            ),
+            base64.b64encode(
+                zlib.compress(
+                    pickle.dumps(
+                        object_to_dict(rospy.wait_for_message(f'/robot{robot_id+1}/map', OccupancyGrid))
+                    )
+                )
+            ).decode('ascii'),
             rospy.get_time()
         )
         return
     if not leader:
-        MA = MarkerArray()
-        MA.markers = [getMarker(marker_id-1, [], remove=True)]
-        debug.publish(MA)
+        delete_markers()
         return
     all_frontiers = frontiers + other_frontiers + blob_frontiers
     
@@ -156,9 +168,7 @@ def updateGoal(_):
     if len(all_frontiers)==0: #frontiere vuote
         if last_try: #ha provato a girarsi ma niente, termino exploration
             print(f'[{robot_id}] frontiere finite')
-            MA = MarkerArray()
-            MA.markers = [getMarker(marker_id-1, [], remove=True)]
-            debug.publish(MA)
+            delete_markers()
             return
         turn_around()
         for _ in range(3):
@@ -170,6 +180,7 @@ def updateGoal(_):
     all_frontiers.sort(key=lambda x: x[1], reverse=True)
 
     i=0
+    goal = False
     while i<len(all_frontiers): #non seleziono frontiere bannate
         if point_to_tuple(all_frontiers[i][0]) not in banned_frontiers:
             goal = all_frontiers[i][0]
@@ -185,11 +196,11 @@ def updateGoal(_):
         add_data(
             rospy.get_time(),
             robot_id+1,
-            zstd.compress(pickle.dumps(all_frontiers)),
+            zlib.compress(pickle.dumps(all_frontiers)),
             execution_nr,
             all_frontiers[i][-1] #boolean che indica se è una frontiera generata dal blobbing
         )
-    if (not same_goal) or prev_distance>robotFrontierDistance:
+    if (not same_goal) or prev_distance>robotFrontierDistance: #mi sto avvicinando al goal
         print(f'[{robot_id}] if 1')
         prev_distance = robotFrontierDistance
         last_progress = rospy.Time.now()
@@ -200,6 +211,7 @@ def updateGoal(_):
         print(f'[{robot_id}] {[(round(x[0].x,3),round(x[0].y,3)) for x in all_frontiers]}')
         banned_frontiers[point_to_tuple(all_frontiers[i][0])]=True
         last_progress = rospy.Time.now()
+        rospy.Timer(rospy.Duration(0.05), updateGoal, oneshot=True)
         return
     if same_goal:
         if goal_state%goal_rate==0:
@@ -220,6 +232,7 @@ def getFrontierLenght(f, blob):
 
 def getCost(frontier, blob=False): # preso una pose (Point) e una frontiera (Linestring) calcola il costo
     return (gain_scale*getFrontierLenght(frontier,blob) - potential_scale*getRobotDistance(frontier))
+# ... + I*50
 
 def getRobotDistance(frontier): #distanza minima del robot dalla frontiera
     pose_tf = tf2_geometry_msgs.do_transform_pose(getPoseStamped(my_pose), transform)
@@ -244,13 +257,22 @@ def point_to_tuple(P):
     return (P.x,P.y)
 
 def updateTransform(_):
-    global transform
+    global transform, semantic_areas_tf
     try:
         transform = tf_buffer.lookup_transform(
             f'robot{robot_id+1}/map',
             f'robot{robot_id+1}/odom',
             rospy.Time()
         )
+        my_tf_pose = tf2_geometry_msgs.do_transform_pose(getPoseStamped(my_pose), transform)
+        x,y = my_tf_pose.pose.position.x, my_tf_pose.pose.position.y
+        o_x, o_y = my_pose.pose.pose.position.x, my_pose.pose.pose.position.y
+        diff_x, diff_y = o_x-x, o_y-y
+        semantic_areas_tf = [affinity.translate(area, -diff_x, -diff_y) for area in semantic_areas]
+        marker = MarkerArray()
+        marker.markers = [getMarkerSemantic(id, list(zip(*poly.exterior.xy))) for id, poly in enumerate(semantic_areas_tf)]
+        semantic_area_pub.publish(marker)
+
     #print(f"[{robot_id}] transform fatta")
     except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
         {'''print(f"[{robot_id}] transform NON fatta")'''}
@@ -292,13 +314,58 @@ def send_cmd_vel(x,z):
 def turn_around(): #gira il robot
     send_cmd_vel(0,-1.3)
 
+def delete_markers():
+    global last_marker_id
+    MA = MarkerArray()
+    MA.markers = []
+    for id in range(last_marker_id, marker_id):
+        MA.markers += [getMarker(id, [], remove=True)]
+    debug.publish(MA)
+    last_marker_id = marker_id
+
+def delete_markers_semantic():
+    MA = MarkerArray()
+    MA.markers = []
+    marker = MarkerArray()
+    marker.markers = [getMarkerSemantic(id, [], remove=True) for id, _ in enumerate(semantic_areas_tf)]
+    semantic_area_pub.publish(MA)
+
 #positions = [(x1,y1),(x2,y2)...]
-def getMarker(id, positions, remove=False):
+#if text is not None positions=[(x,y)]
+def getMarker(id, positions, remove=False, text=None):
     M = Marker()
     M.header.frame_id = "map"
     M.header.stamp = rospy.Time.now()
     M.ns = f"robot{robot_id}"
-    M.type = Marker.SPHERE_LIST
+    M.type = Marker.SPHERE_LIST if text is None else Marker.TEXT_VIEW_FACING
+    M.action = Marker.ADD if not remove else Marker.DELETE
+    M.text = "" if text is None else text
+    M.id = id
+    if text is None:
+        for pos in positions:
+            P = Point()
+            x,y = pos
+            P.x = x
+            P.y = y
+            P.z = 0
+            M.points += [P]
+    else:
+        M.pose.position.x = positions[0][0]
+        M.pose.position.y = positions[0][1]
+    M.pose.orientation.w = 1
+    M.scale.x = 0.4
+    M.scale.y = 0.4
+    M.scale.z = 0.4
+    M.color = colors[robot_id%len(colors)] if text is None else black
+    return M
+
+#positions = [(x1,y1),(x2,y2)...]
+def getMarkerSemantic(id, positions, remove=False):
+    M = Marker()
+    M.ns = "semantica_area"
+    M.header.frame_id = "map"
+    M.header.stamp = rospy.Time.now()
+    M.type = Marker.LINE_STRIP
     M.action = Marker.ADD if not remove else Marker.DELETE
     M.id = id
     for pos in positions:
@@ -308,16 +375,14 @@ def getMarker(id, positions, remove=False):
         P.y = y
         P.z = 0
         M.points += [P]
-    #M.pose.position.x = x
-    #M.pose.position.y = y
-    #M.pose.position.z = 0
-    #M.pose.orientation.x = 0
-    #M.pose.orientation.y = 0
-    #M.pose.orientation.z = 0
+    close_point = Point()
+    x,y = positions[0]
+    close_point.x = x
+    close_point.y = y
+    close_point.z = 0
+    M.points += [close_point]
     M.pose.orientation.w = 1
-    M.scale.x = 0.4
-    M.scale.y = 0.4
-    M.scale.z = 0.4
+    M.scale.x = 0.1
     M.color = colors[robot_id%len(colors)]
     return M
 
@@ -339,9 +404,13 @@ def update_cluster(update):
         add_final_map(
             execution_nr,
             robot_id+1,
-            zstd.compress(
-                pickle.dumps(rospy.wait_for_message(f'/robot{robot_id+1}/map', OccupancyGrid))
-            ),
+            base64.b64encode(
+                zlib.compress(
+                    pickle.dumps(
+                        object_to_dict(rospy.wait_for_message(f'/robot{robot_id+1}/map', OccupancyGrid))
+                    )
+                )
+            ).decode('ascii'),
             rospy.get_time()
         )
         time.sleep(5)
@@ -376,14 +445,14 @@ if __name__ == '__main__':
     rospy.init_node('move_controller', disable_signals=True)
     
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'Cluster Controller: creata connessione db')
     except Error as e:
         print(e)
 
-    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1): #aspetto pos_aggregator
+    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator
         time.sleep(.5)
 
     cur = conn.cursor()
@@ -396,6 +465,7 @@ if __name__ == '__main__':
 
     colors = [(0,255,0),(0,255,255),(255,20,147),(255,255,0)]
     colors = [getColorRGB(c) for c in colors]
+    black = getColorRGB((0,0,0))
 
     frontiers = [] #[(centroide1,costo1,frontiera1), ..., (centroide_n,costo_n,frontiera_n)]
     other_frontiers = [] #frontiere ereditate dal cluster
@@ -408,10 +478,15 @@ if __name__ == '__main__':
 
     old_max_frontier_centroid = Point()  #ultima frontiera scelta come goal (centroide)
     old_max_frontier = LineString() #ultima frontiera scelta come goal (figura)
-    prev_distance = 0 #distanza del robot dall'old_max_frontier
+    prev_distance = inf #distanza del robot dall'old_max_frontier
     max_time = 15 # tempo massimo in secondi in cui il robot cerca di raggiungere la frontiera
     last_progress = rospy.Time.now()
     last_try = False #se le frontiere sono vuote, prima di bloccare provo a farlo girare
+
+    semantic_areas_marker = rospy.wait_for_message('/semantic_areas', MarkerArray)
+    semantic_areas = [Polygon([sPoint(point.x,point.y) for point in area.points]) for area in semantic_areas_marker.markers]
+    semantic_areas_tf = []
+    semantic_area_pub = rospy.Publisher('semantic_areas', MarkerArray, queue_size=5)
 
     my_pose = Odometry()
     last_my_pose = Odometry()
@@ -435,6 +510,7 @@ if __name__ == '__main__':
     FINISH = False #RENDEVZOUS!
 
     marker_id = 0
+    last_marker_id = 0
 
     goal_rate = 5
     goal_state = 0

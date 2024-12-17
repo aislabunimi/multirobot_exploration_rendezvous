@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import rospy, sys, re, time, matplotlib.pyplot as plt, rosnode, rospkg, sqlite3, pickle, zstd, copy
+import rospy, sys, re, time, matplotlib.pyplot as plt, rosnode, rospkg, sqlite3, pickle, zlib, copy
 from sqlite3 import Error
 from shapely.geometry import Point, MultiPoint, LineString
 from shapely.ops import unary_union
 from math import sqrt, pi
-from test_unknown_rendezvous.msg import array_pos, cluster, logging
+from journal_rendezvous.msg import array_pos, cluster, logging
 from nav_msgs.msg import OccupancyGrid
 from geometry_msgs.msg import PoseStamped, Twist
 
@@ -81,7 +81,8 @@ def check_distances(all_positions):
                             rospy.get_time(),
                             i+1,
                             clusters.max_cluster(),
-                            zstd.compress(pickle.dumps(rawmap[clusters.cluster(i)[0]])),
+                            #zstd.compress(pickle.dumps(rawmap[clusters.cluster(i)[0]])),
+                            "",
                             pickle.dumps([(pos1.x, pos1.y),(pos2.x, pos2.y)]),
                             0,
                             execution_nr
@@ -93,7 +94,8 @@ def check_distances(all_positions):
                             rospy.get_time(),
                             i+1,
                             clusters.max_cluster(),
-                            zstd.compress(pickle.dumps(rawmap[clusters.cluster(i)[0]])),
+                            #zstd.compress(pickle.dumps(rawmap[clusters.cluster(i)[0]])),
+                            "",
                             pickle.dumps([(pos1.x, pos1.y),(pos2.x, pos2.y)]),
                             1,
                             execution_nr
@@ -199,16 +201,15 @@ if __name__ == '__main__':
     rospy.init_node('cluster')
 
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'Cluster Controller: creata connessione db')
     except Error as e:
         print(e)
 
-    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1): #aspetto pos_aggregator
-        break
-    time.sleep(.5)
+    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator
+        time.sleep(.5)
 
     cur = conn.cursor()
     cur.execute('SELECT MAX(id) FROM Executions')
@@ -247,7 +248,7 @@ if __name__ == '__main__':
             rospy.get_time(),
             i,
             1,
-            zstd.compress(pickle.dumps([])),
+            zlib.compress(pickle.dumps([])),
             pickle.dumps([]),
             0,
             execution_nr

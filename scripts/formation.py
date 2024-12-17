@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy, sys, numpy as np, re, time, rospkg, sqlite3, rosnode, math
 from sqlite3 import Error
-from test_unknown_rendezvous.msg import cluster, array_pos
+from journal_rendezvous.msg import cluster, array_pos
 from geometry_msgs.msg import Twist, Vector3, PoseStamped
 from itertools import chain
 from sensor_msgs.msg import LaserScan
@@ -54,14 +54,6 @@ def compute_action(cluster):
         u = (norm(x_i-x_j)**2-raggio**2)*(x_j-x_i)
 
     u *= gain
-
-    add_data(
-        rospy.get_time(),
-        robot_id+1, 
-        u[0],
-        u[1],
-        execution_nr
-    )
 
     action = Vector3()
     action.x = u[0]
@@ -185,18 +177,13 @@ def calc_dist_matrix(n,r): #calcola la matrice delle distanze di n robot circosc
             distance_matrix = regularPolyDistance(n,r)
     return distance_matrix
 
-def add_data(time, robot, ux, uy, execution):
-    sql = 'INSERT INTO Formation VALUES(?,?,?,?,?)'
-    conn.cursor().execute(sql, (time, robot, ux, uy, execution))
-    conn.commit()
-
 if __name__ == '__main__':
     gain = float(sys.argv[1])
     rospy.init_node('formation')
 
     robot_id = int(re.findall("[0-9]+", rospy.get_namespace())[0])-1
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'[{robot_id}] pos_broadcast: creata connessione db')
@@ -231,7 +218,7 @@ if __name__ == '__main__':
     del_goal = rospy.Publisher('move_base/cancel', GoalID, queue_size=10)
     pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
 
-    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1): #aspetto pos_aggregator
-        break
+    while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator
+        time.sleep(.5)
 
     rospy.spin()

@@ -8,13 +8,13 @@
         <!-- <remap from="map" to="/map"/> -->
         <param name="base_global_planner" value="global_planner/GlobalPlanner" />
         <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/move_base_params.yaml" command="load" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/dwa_local_planner_params.yaml" command="load" />
-        <rosparam file="$(find test_unknown_rendezvous)/params/global_planner_params.yaml" command="load" />
+        <rosparam file="$(find journal_rendezvous)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find journal_rendezvous)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find journal_rendezvous)/params/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find journal_rendezvous)/params/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find journal_rendezvous)/params/move_base_params.yaml" command="load" />
+        <rosparam file="$(find journal_rendezvous)/params/dwa_local_planner_params.yaml" command="load" />
+        <rosparam file="$(find journal_rendezvous)/params/global_planner_params.yaml" command="load" />
         <param name="global_costmap/robot_base_frame" value="$(arg tf_name)$(arg slash)base_footprint"/>
         <param name="local_costmap/robot_base_frame"  value="$(arg tf_name)$(arg slash)base_footprint"/>
         <param name="global_costmap/global_frame"     value="$(arg tf_name)$(arg slash)map"/>

@@ -8,7 +8,7 @@
 
     <param 
         name="robot_description"
-        command="$(find xacro)/xacro '$(find test_unknown_rendezvous)/urdf/turtlebot3_$(arg model).urdf.xacro'"
+        command="$(find xacro)/xacro '$(find journal_rendezvous)/urdf/turtlebot3_$(arg model).urdf.xacro'"
     />
     <node 
         name="spawn_urdf"

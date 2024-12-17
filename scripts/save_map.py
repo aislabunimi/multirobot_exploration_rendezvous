@@ -24,7 +24,7 @@ if __name__ == '__main__':
     new_pos = Odometry()
 
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect('/home/aislab/Documents/Tellaroli/Dati esperimenti tesi/data.db', check_same_thread=False)
         print(f'Cluster Controller: creata connessione db')

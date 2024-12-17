@@ -1,4 +1,4 @@
-import rospy, sys, time, tf2_ros, tf2_geometry_msgs, sqlite3, rospkg, pickle, zstd
+import rospy, sys, time, tf2_ros, tf2_geometry_msgs, sqlite3, rospkg, pickle
 from sqlite3 import Error
 from shapely.geometry import Point, Polygon
 from shapely.ops import unary_union
@@ -6,7 +6,7 @@ from shapely import affinity
 from shapely import set_precision
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
-from test_unknown_rendezvous.msg import cluster, points, point_sec
+from journal_rendezvous.msg import cluster, points, point_sec
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Point as RosPoint, PoseStamped
 from std_msgs.msg import ColorRGBA
@@ -56,14 +56,6 @@ def update_area(_):
         visited_area = unary_union(list(map(lambda x: Point(x['point']).buffer(raggio), flat(visited_points))))
         marker_area_pub.publish(getMarker(last_area_marker, [], remove=True))
         marker_area_pub.publish(getMarker(marker_id, visited_area.exterior.coords))
-
-        add_data(
-            rospy.get_time(),
-            robot_id,
-            pickle.dumps([vp['origin'] for vp in flat(visited_points)]),
-            raggio,
-            execution_nr
-        )
 
         last_area_marker = marker_id
         marker_id += 1
@@ -197,11 +189,6 @@ def plot_area(_):
     plt.plot(*visited_area.exterior.xy, "-k")
     plt.show()
 
-def add_data(time, robot, visitedPoints, raggio, execution):
-    sql = 'INSERT INTO VisitedPoints VALUES(?,?,?,?,?)'
-    conn.cursor().execute(sql, (time, robot, visitedPoints, raggio, execution))
-    conn.commit()
-
 if __name__ == '__main__':
     robot_id = int(sys.argv[1])
     colors = [(0,255,0),(0,255,255),(255,20,147),(255,255,0)]
@@ -226,7 +213,7 @@ if __name__ == '__main__':
     rospy.init_node('visited_area')
 
     db_conn = None
-    package_dir = rospkg.RosPack().get_path('test_unknown_rendezvous')
+    package_dir = rospkg.RosPack().get_path('journal_rendezvous')
     try:
         conn = sqlite3.connect(package_dir+'/data/data_test.db', check_same_thread=False)
         print(f'Cluster Controller: creata connessione db')

@@ -2,7 +2,11 @@ PRAGMA journal_mode=WAL;
 
 CREATE TABLE IF NOT EXISTS Executions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    time TEXT
+    time TEXT,
+    map TEXT,
+    robot_nr INTEGER,
+    rendezvous INTEGER,
+    notes TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Positions (
@@ -10,15 +14,6 @@ CREATE TABLE IF NOT EXISTS Positions (
     robot INTEGER,
     x REAL,
     y REAL,
-    execution INTEGER,
-    FOREIGN KEY (execution) REFERENCES Execution(id)
-);
-
-CREATE TABLE IF NOT EXISTS Formation (
-    time REAL,
-    robot INTEGER,
-    ux REAL,
-    uy REAL,
     execution INTEGER,
     FOREIGN KEY (execution) REFERENCES Execution(id)
 );
@@ -34,15 +29,6 @@ CREATE TABLE IF NOT EXISTS Clustering (
     FOREIGN KEY (execution) REFERENCES Execution(id)
 );
 
-CREATE TABLE IF NOT EXISTS VisitedPoints (
-    time REAL,
-    robot INTEGER,
-    visitedPoints BLOB,
-    raggio REAL,
-    execution INTEGER,
-    FOREIGN KEY (execution) REFERENCES Execution(id)
-);
-
 CREATE TABLE IF NOT EXISTS Exploration (
     time REAL,
     robot INTEGER,
@@ -52,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Exploration (
     FOREIGN KEY (execution) REFERENCES Execution(id)
 );
 
-CREATE TABLE FinalMaps(
+CREATE TABLE IF NOT EXISTS FinalMaps(
     execution INTEGER,
     robot INTEGER,
     map BLOB,

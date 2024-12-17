@@ -246,39 +246,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot3
       Robot Description: robot3/robot_description
       TF Prefix: robot3
@@ -295,39 +262,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot4
       Robot Description: robot4/robot_description
       TF Prefix: robot4
@@ -344,39 +278,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot5
       Robot Description: robot5/robot_description
       TF Prefix: robot5
@@ -393,39 +294,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot6
       Robot Description: robot6/robot_description
       TF Prefix: robot6
@@ -442,39 +310,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot7
       Robot Description: robot7/robot_description
       TF Prefix: robot7
@@ -491,39 +326,6 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        base_scan:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        caster_back_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wheel_left_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_right_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Name: Robot8
       Robot Description: robot8/robot_description
       TF Prefix: robot8
@@ -811,7 +613,7 @@ Visualization Manager:
       Marker Topic: /robot1/visited_area
       Name: Area1
       Namespaces:
-        {}
+        robot1: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -819,7 +621,7 @@ Visualization Manager:
       Marker Topic: /robot2/visited_area
       Name: Area2
       Namespaces:
-        {}
+        robot2: true
       Queue Size: 100
       Value: true
     - Class: rviz/Marker
@@ -923,7 +725,7 @@ Visualization Manager:
       Marker Topic: /robot3/frontiers_debug
       Name: Frontiers3
       Namespaces:
-        robot2: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -931,7 +733,7 @@ Visualization Manager:
       Marker Topic: /robot4/frontiers_debug
       Name: Frontiers4
       Namespaces:
-        robot3: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -939,7 +741,7 @@ Visualization Manager:
       Marker Topic: /robot5/frontiers_debug
       Name: Frontiers5
       Namespaces:
-        robot4: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -947,7 +749,7 @@ Visualization Manager:
       Marker Topic: /robot6/frontiers_debug
       Name: Frontiers6
       Namespaces:
-        robot5: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -955,7 +757,7 @@ Visualization Manager:
       Marker Topic: /robot7/frontiers_debug
       Name: Frontiers7
       Namespaces:
-        robot6: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -963,7 +765,7 @@ Visualization Manager:
       Marker Topic: /robot8/frontiers_debug
       Name: Frontiers8
       Namespaces:
-        robot7: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -1078,6 +880,14 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: false
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /semantic_areas
+      Name: MarkerArray
+      Namespaces:
+        semantica_area: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -1102,7 +912,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 57.041812896728516
+      Distance: 79.9228515625
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1110,9 +920,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 27.99156951904297
-        Y: -15.902386665344238
-        Z: 6.249103546142578
+        X: 8.566118240356445
+        Y: 1.4543935060501099
+        Z: 6.267877101898193
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -1120,7 +930,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 4.7486090660095215
+      Yaw: 4.733607769012451
     Saved: ~
 Window Geometry:
   Displays:
