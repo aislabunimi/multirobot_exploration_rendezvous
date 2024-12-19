@@ -10,7 +10,7 @@
     <param name="world" value="$(arg world)"/>
 
     <include file="$(find journal_rendezvous)/launch/world.launch">
-        <arg name="use_gui" value="false"/>
+        <arg name="use_gui" value="true"/>
         <arg name="world_name" value="$(arg world)"/>
     </include>
 
