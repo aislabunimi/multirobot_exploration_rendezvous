@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rospy, re, actionlib, tf2_ros, tf2_geometry_msgs, time, random
-import rospkg, sqlite3, pickle, zlib, os, rosnode, base64
+import rospkg, sqlite3, pickle, zlib, os, rosnode, base64, sys
 from sqlite3 import Error
 from shapely import LineString, Point as sPoint, Polygon, affinity
 from math import isnan, inf
@@ -187,6 +187,10 @@ def updateGoal(_):
             break
         i+=1
 
+    if i==len(all_frontiers):
+        rospy.Timer(rospy.Duration(0.05), updateGoal, oneshot=True)
+        return
+
     same_goal = old_max_frontier_centroid==goal
     old_max_frontier_centroid = goal
     old_max_frontier = all_frontiers[i][2]
@@ -231,8 +235,11 @@ def getFrontierLenght(f, blob):
     return len(f.coords)*.05 if not blob else f.length
 
 def getCost(frontier, blob=False): # preso una pose (Point) e una frontiera (Linestring) calcola il costo
-    return (gain_scale*getFrontierLenght(frontier,blob) - potential_scale*getRobotDistance(frontier))
-# ... + I*50
+    cost = (gain_scale*getFrontierLenght(frontier,blob) - potential_scale*getRobotDistance(frontier))
+    if semantic_flag!='off':
+        if semantic_flag=='bonus':
+            return cost+abs(cost*semantic_bonus) if semantic_inside(frontier.centroid) else cost
+    return cost
 
 def getRobotDistance(frontier): #distanza minima del robot dalla frontiera
     pose_tf = tf2_geometry_msgs.do_transform_pose(getPoseStamped(my_pose), transform)
@@ -264,15 +271,15 @@ def updateTransform(_):
             f'robot{robot_id+1}/odom',
             rospy.Time()
         )
-        my_tf_pose = tf2_geometry_msgs.do_transform_pose(getPoseStamped(my_pose), transform)
-        x,y = my_tf_pose.pose.position.x, my_tf_pose.pose.position.y
-        o_x, o_y = my_pose.pose.pose.position.x, my_pose.pose.pose.position.y
-        diff_x, diff_y = o_x-x, o_y-y
-        semantic_areas_tf = [affinity.translate(area, -diff_x, -diff_y) for area in semantic_areas]
-        marker = MarkerArray()
-        marker.markers = [getMarkerSemantic(id, list(zip(*poly.exterior.xy))) for id, poly in enumerate(semantic_areas_tf)]
-        semantic_area_pub.publish(marker)
-
+        if semantic_flag!='off':
+            my_tf_pose = tf2_geometry_msgs.do_transform_pose(getPoseStamped(my_pose), transform)
+            x,y = my_tf_pose.pose.position.x, my_tf_pose.pose.position.y
+            o_x, o_y = my_pose.pose.pose.position.x, my_pose.pose.pose.position.y
+            diff_x, diff_y = o_x-x, o_y-y
+            semantic_areas_tf = [affinity.translate(area, -diff_x, -diff_y) for area in semantic_areas]
+            marker = MarkerArray()
+            marker.markers = [getMarkerSemantic(id, list(zip(*poly.exterior.xy))) for id, poly in enumerate(semantic_areas_tf)]
+            semantic_area_pub.publish(marker)
     #print(f"[{robot_id}] transform fatta")
     except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
         {'''print(f"[{robot_id}] transform NON fatta")'''}
@@ -323,13 +330,6 @@ def delete_markers():
     debug.publish(MA)
     last_marker_id = marker_id
 
-def delete_markers_semantic():
-    MA = MarkerArray()
-    MA.markers = []
-    marker = MarkerArray()
-    marker.markers = [getMarkerSemantic(id, [], remove=True) for id, _ in enumerate(semantic_areas_tf)]
-    semantic_area_pub.publish(MA)
-
 #positions = [(x1,y1),(x2,y2)...]
 #if text is not None positions=[(x,y)]
 def getMarker(id, positions, remove=False, text=None):
@@ -340,6 +340,8 @@ def getMarker(id, positions, remove=False, text=None):
     M.type = Marker.SPHERE_LIST if text is None else Marker.TEXT_VIEW_FACING
     M.action = Marker.ADD if not remove else Marker.DELETE
     M.text = "" if text is None else text
+    if text and semantic_inside(sPoint(positions)):
+        M.text = f'{M.text} *'
     M.id = id
     if text is None:
         for pos in positions:
@@ -356,8 +358,16 @@ def getMarker(id, positions, remove=False, text=None):
     M.scale.x = 0.4
     M.scale.y = 0.4
     M.scale.z = 0.4
-    M.color = colors[robot_id%len(colors)] if text is None else black
+    if text is None:
+        M.color = colors[robot_id%len(colors)]
+    else:
+        M.color = black
     return M
+
+#point:shapely.Point
+def semantic_inside(point):
+    if semantic_flag=='off': return False
+    return any((area.contains(point) for area in semantic_areas_tf))
 
 #positions = [(x1,y1),(x2,y2)...]
 def getMarkerSemantic(id, positions, remove=False):
@@ -443,6 +453,14 @@ def add_final_map(execution, robot, map, time):
 if __name__ == '__main__':
     robot_id = int(re.findall("[0-9]+", rospy.get_namespace())[0])-1
     rospy.init_node('move_controller', disable_signals=True)
+
+    semantic_flag = sys.argv[1]
+    semantic_flag_list = ["off", "bonus", "cut"]
+    if semantic_flag not in semantic_flag_list:
+        raise Exception(f"semantic_flag {semantic_flag} non valida ({semantic_flag_list})")
+    if semantic_flag=='bonus':
+        semantic_bonus = float(sys.argv[2])
+    print(f'[{robot_id}] semantic bonus: {semantic_bonus}')
     
     db_conn = None
     package_dir = rospkg.RosPack().get_path('journal_rendezvous')
@@ -483,10 +501,11 @@ if __name__ == '__main__':
     last_progress = rospy.Time.now()
     last_try = False #se le frontiere sono vuote, prima di bloccare provo a farlo girare
 
-    semantic_areas_marker = rospy.wait_for_message('/semantic_areas', MarkerArray)
-    semantic_areas = [Polygon([sPoint(point.x,point.y) for point in area.points]) for area in semantic_areas_marker.markers]
-    semantic_areas_tf = []
-    semantic_area_pub = rospy.Publisher('semantic_areas', MarkerArray, queue_size=5)
+    if semantic_flag!='off':
+        semantic_areas_marker = rospy.wait_for_message('/semantic_areas', MarkerArray)
+        semantic_areas = [Polygon([sPoint(point.x,point.y) for point in area.points]) for area in semantic_areas_marker.markers]
+        semantic_areas_tf = []
+        semantic_area_pub = rospy.Publisher('semantic_areas', MarkerArray, queue_size=5)
 
     my_pose = Odometry()
     last_my_pose = Odometry()

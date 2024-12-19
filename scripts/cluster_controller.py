@@ -197,6 +197,7 @@ def logger(s):
 if __name__ == '__main__':
     threshold = float(sys.argv[1]) #se distanza<threshold si forma cluster
     robot_number = int(sys.argv[2]) #numero di robot presenti
+    semantic_flag = sys.argv[3]
     #map_control = False
     rospy.init_node('cluster')
 
@@ -220,12 +221,17 @@ if __name__ == '__main__':
     EXPLORE_LITE = rospy.get_param('/explore-lite')
     world_name = rospy.get_param('/world')
 
+    l = logging()
+    method = ""
+    if EXPLORE_LITE and semantic_flag=='off': method = 'el'
+    else:
+        if   semantic_flag=='bonus': method = 'sem1' 
+        elif semantic_flag=='cut'  : method = 'sem2'
     LOG_FILE = open(
-        f'{log_path}/{execution_nr}_{world_name}_{robot_number}_{"el" if EXPLORE_LITE else "my"}.txt',
+        f'{log_path}/{execution_nr}_{world_name}_{robot_number}_{method}.txt',
         'a'
     )
-    l = logging()
-    l.str = f'ESECUZIONE {execution_nr} SULLA MAPPA {world_name} CON {robot_number} E METODO {"el" if EXPLORE_LITE else "my"}\n' 
+    l.str = f'ESECUZIONE {execution_nr} SULLA MAPPA {world_name} CON {robot_number} E METODO {method}\n' 
     logger(l)
 
     rospy.Subscriber('/logger', logging, logger)

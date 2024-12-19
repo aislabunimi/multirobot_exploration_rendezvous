@@ -14,8 +14,6 @@ def pub_pos(_):
     
 def log_pos(_):
     global positions_buffer
-    if FINISH: #rendezvous
-        return
     if len(positions_buffer)<=max_len:
         positions_buffer.append(
             (
@@ -37,6 +35,11 @@ def check_rendezvous(cluster_msg):
     FINISH = cluster_msg.all_together
 
 def add_data():
+    global one_time
+    if FINISH: #rendezvous
+        if one_time:
+            return
+        one_time = True
     print(f'[{robot_id}] ADDED POSITION DATA ({len(positions_buffer)}) %%%%%%%%%%%%%%%%%%%%%%%%%%')
     sql = f'INSERT INTO Positions VALUES(?,{robot_id},?,?,{execution_nr})'
     conn.cursor().executemany(sql, positions_buffer)
@@ -55,6 +58,7 @@ if __name__ == '__main__':
     positions_buffer = []
 
     FINISH = False
+    one_time = False
     rospy.Subscriber('cluster', cluster, check_rendezvous)
 
     while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator

@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name = "world_name" default = "world1"/>
+  <arg name = "world_name" default = ""/>
   <arg name = "use_gui" default = "false"/>
 
   <include file = "$(find gazebo_ros)/launch/empty_world.launch">

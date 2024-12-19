@@ -1,5 +1,0 @@
-ESECUZIONE 1 SULLA MAPPA office_big CON 2 E METODO my
-
-[757.61] 		robot 0 ha trovato robot 1 -> [[0, 1]]
-RENDEZVOUS
-RENDEZVOUS

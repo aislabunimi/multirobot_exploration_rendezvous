@@ -2,15 +2,17 @@
 
     <arg name="robot_number" default="0"/>
     <!-- NON USARE robot_name PERSONALIZZATI, DIRE SOLTANTO IL robot_number -->
-    <arg name="robot_name"   default="robot$(arg robot_number)"/>
-    <arg name="pose_x"       default="0"        doc="posizione x del robot nella mappa"/>
-    <arg name="pose_y"       default="0"        doc="posizione y del robot nella mappa"/>
-    <arg name="pose_z"       default="0"        doc="posizione z del robot nella mappa"/>
-    <arg name="slam"         default="false"/>
-    <arg name="move_base"    default="true"/>
-    <arg name="exploration"  default="false"/>
-    <arg name="formation"    default="true"/>
-    <arg name="blobbing"     default="false"/>
+    <arg name="robot_name"     default="robot$(arg robot_number)"/>
+    <arg name="pose_x"         default="0"        doc="posizione x del robot nella mappa"/>
+    <arg name="pose_y"         default="0"        doc="posizione y del robot nella mappa"/>
+    <arg name="pose_z"         default="0"        doc="posizione z del robot nella mappa"/>
+    <arg name="slam"           default="false"/>
+    <arg name="move_base"      default="true"/>
+    <arg name="exploration"    default="false"/>
+    <arg name="formation"      default="true"/>
+    <arg name="blobbing"       default="false"/>
+    <arg name="semantic"       default="off"/> <!-- off, bonus, cut -->
+    <arg name="semantic_bonus" default="0.3"/>
 
     <group ns="$(arg robot_name)">
         <param name="tf_prefix"   value="$(arg robot_name)"/>
@@ -44,9 +46,7 @@
             </include>
         </group>
 
-        <!-- pose_broadcast CIAO, NON CHIUDERE FIREFOX CHE STO SCARICANDO COSE PER UN ALTRO TESISTA; GRAZIE MILLE MICHELE
-            OK!
-         -->
+        <!-- pose_broadcast -->
         <node 
             name   = "positions_bd"
             pkg    = "journal_rendezvous"
@@ -70,6 +70,7 @@
             name   = "move_controller"
             pkg    = "journal_rendezvous"
             type   = "move_controller.py"
+            args   = "$(arg semantic) $(arg semantic_bonus)"
             output = "screen"
             if     = "$(arg exploration)"
         />

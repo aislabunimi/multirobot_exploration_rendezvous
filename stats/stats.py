@@ -29,11 +29,12 @@ DB_PATH = 'C:\\Users\\mauro\\Documents'
 class SingleRun:
     def __init__(self, db_path:str, ex:int, real_map:str=None, verbose:bool=False):
         self.ex = ex
-        self.execution_info = pd.read_sql(f'SELECT * FROM Execution WHERE id={ex}', self.conn).iloc[0]
         self.verbose = verbose
-        self.robot_nr = self.execution_info['robot_nr']
         self.conn = sqlite3.connect(db_path)
         #self.conn = 'sqlite:////data_test.db'
+        self.exec = pd.read_sql(f'SELECT * FROM Executions WHERE id={ex}', self.conn)
+        self.robot_nr = self.exec['robot_nr'][0]
+        self.rendezvous = bool(self.exec['rendezvous'][0])
         self.where = f'WHERE execution={ex}'
         self.positions = None
         self.clustering = None
@@ -169,16 +170,13 @@ class SingleRun:
         return self.positions['time'].max()
 
     def is_rendezvous(self):
-        return len(no_rendezvous[no_rendezvous['ex']==self.ex])==0
+        return self.rendezvous
 
     def get_rendezvous_time(self):
         n = self.get_robot_nr()
         tmp = self.clustering[self.clustering['max']==n]['time']
-        if len(tmp)==0:
-            search = no_rendezvous[no_rendezvous['ex']==self.ex]['time']
-            if len(search)==0:
-                return None
-            return search.iloc[0]
+        if not self.is_rendezvous():
+            return None
         last_time = tmp.iloc[0]
         return last_time - self.get_start_time()
     
