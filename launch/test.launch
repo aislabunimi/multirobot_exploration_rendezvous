@@ -33,7 +33,7 @@
         <arg name="slam"         value="true"/>
         <arg name="formation"    value="false"/>
         <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="false"/>
+        <arg name="blobbing"     value="true"/>
         <arg name="semantic"     value="bonus"/>
     </include>
 
