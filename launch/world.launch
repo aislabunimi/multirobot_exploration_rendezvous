@@ -3,6 +3,8 @@
   <arg name = "world_name" default = ""/>
   <arg name = "use_gui" default = "false"/>
 
+  <env name="GAZEBO_MODEL_PATH" value="$(find journal_rendezvous)/worlds/models:$(optenv GAZEBO_MODEL_PATH)"/>
+
   <include file = "$(find gazebo_ros)/launch/empty_world.launch">
     <arg name = "world_name" value = "$(find journal_rendezvous)/worlds/$(arg world_name).world"/>
     <arg name = "paused" value = "false"/>
