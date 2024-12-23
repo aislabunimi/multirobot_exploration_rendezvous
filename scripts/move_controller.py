@@ -113,6 +113,8 @@ def updateBFrontiers(markerArray):
     if not leader or len(markerArray.markers)==0 or markerArray.markers[0].action==2:
         return
     blob_frontiers = [f for f in getFrontiersB(markerArray) if not isnan(f[1])]
+    if semantic_flag=='cut':
+        blob_frontiers = [b for b in blob_frontiers if semantic_inside(b[2].centroid)]
 
 def updateGoal(_):
     global old_max_frontier_centroid, old_max_frontier, prev_distance, last_progress, marker_id, last_try
@@ -235,7 +237,7 @@ def getFrontierLenght(f, blob):
     return len(f.coords)*.05 if not blob else f.length
 
 def getCost(frontier, blob=False): # preso una pose (Point) e una frontiera (Linestring) calcola il costo
-    cost = (gain_scale*getFrontierLenght(frontier,blob) - potential_scale*getRobotDistance(frontier))
+    cost = gain_scale*getFrontierLenght(frontier,blob) - potential_scale*getRobotDistance(frontier)
     if semantic_flag!='off':
         if semantic_flag=='bonus':
             return cost+abs(cost*semantic_bonus) if semantic_inside(frontier.centroid) else cost
@@ -340,7 +342,7 @@ def getMarker(id, positions, remove=False, text=None):
     M.type = Marker.SPHERE_LIST if text is None else Marker.TEXT_VIEW_FACING
     M.action = Marker.ADD if not remove else Marker.DELETE
     M.text = "" if text is None else text
-    if text and semantic_inside(sPoint(positions)):
+    if text and semantic_flag=='bonus' and semantic_inside(sPoint(positions)):
         M.text = f'{M.text} *'
     M.id = id
     if text is None:
@@ -458,9 +460,10 @@ if __name__ == '__main__':
     semantic_flag_list = ["off", "bonus", "cut"]
     if semantic_flag not in semantic_flag_list:
         raise Exception(f"semantic_flag {semantic_flag} non valida ({semantic_flag_list})")
+    if semantic_flag!='off': print(f'[{robot_id}] semantic mode: {semantic_flag}')
     if semantic_flag=='bonus':
         semantic_bonus = float(sys.argv[2])
-    print(f'[{robot_id}] semantic bonus: {semantic_bonus}')
+        print(f'[{robot_id}] semantic bonus: {semantic_bonus}')
     
     db_conn = None
     package_dir = rospkg.RosPack().get_path('journal_rendezvous')
