@@ -5,7 +5,7 @@
     <arg name="cluster_radius" value="2.7"/>
     <param name="cluster_radius" value="$(arg cluster_radius)"/>
     <arg name="semantic" value="bonus"/>
-    <arg name="semantic_bonus" value="0.3"/>
+    <arg name="semantic_bonus" value="0.5"/>
     <param name="semantic_bonus" value="$(arg semantic_bonus)"/>
 
     <arg name="world" value="office_2"/>
@@ -18,43 +18,43 @@
 
     <!-- robot 1 -->
     <include file="$(find journal_rendezvous)/launch/one_robot.launch">
-        <arg name="robot_number" value="1"/>
-        <arg name="pose_x"       value="-13"/>
-        <arg name="pose_y"       value="14"/>
-        <arg name="pose_z"       value="0"/>
-        <arg name="slam"         value="true"/>
-        <arg name="formation"    value="false"/>
-        <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="true"/>
-        <arg name="semantic"     value="$(arg semantic)"/>
+        <arg name="robot_number"   value="1"/>
+        <arg name="pose_x"         value="-13"/>
+        <arg name="pose_y"         value="14"/>
+        <arg name="pose_z"         value="0"/>
+        <arg name="slam"           value="true"/>
+        <arg name="formation"      value="false"/>
+        <arg name="exploration"    value="true"/>
+        <arg name="blobbing"       value="true"/>
+        <arg name="semantic"       value="$(arg semantic)"/>
         <arg name="semantic_bonus" value="$(arg semantic_bonus)"/>
     </include>
 
     <!-- robot 2 -->
     <include file="$(find journal_rendezvous)/launch/one_robot.launch">
-        <arg name="robot_number" value="2"/>
-        <arg name="pose_x"       value="18"/>
-        <arg name="pose_y"       value="-5"/>
-        <arg name="pose_z"       value="0"/>
-        <arg name="slam"         value="true"/>
-        <arg name="formation"    value="false"/>
-        <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="true"/>
-        <arg name="semantic"     value="$(arg semantic)"/>
+        <arg name="robot_number"   value="2"/>
+        <arg name="pose_x"         value="18"/>
+        <arg name="pose_y"         value="-5"/>
+        <arg name="pose_z"         value="0"/>
+        <arg name="slam"           value="true"/>
+        <arg name="formation"      value="false"/>
+        <arg name="exploration"    value="true"/>
+        <arg name="blobbing"       value="true"/>
+        <arg name="semantic"       value="$(arg semantic)"/>
         <arg name="semantic_bonus" value="$(arg semantic_bonus)"/>
     </include>
     
     <!-- robot 3 -->
     <include file="$(find journal_rendezvous)/launch/one_robot.launch">
-        <arg name="robot_number" value="3"/>
-        <arg name="pose_x"       value="-16"/>
-        <arg name="pose_y"       value="-28"/>
-        <arg name="pose_z"       value="0"/>
-        <arg name="slam"         value="true"/>
-        <arg name="formation"    value="false"/>
-        <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="true"/>
-        <arg name="semantic"     value="$(arg semantic)"/>
+        <arg name="robot_number"   value="3"/>
+        <arg name="pose_x"         value="-16"/>
+        <arg name="pose_y"         value="-28"/>
+        <arg name="pose_z"         value="0"/>
+        <arg name="slam"           value="true"/>
+        <arg name="formation"      value="false"/>
+        <arg name="exploration"    value="true"/>
+        <arg name="blobbing"       value="true"/>
+        <arg name="semantic"       value="$(arg semantic)"/>
         <arg name="semantic_bonus" value="$(arg semantic_bonus)"/>
     </include>
 

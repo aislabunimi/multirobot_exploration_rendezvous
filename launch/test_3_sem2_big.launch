@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="how_many_robot" value="1"/>
+    <arg name="how_many_robot" value="3"/>
     <param name="explore-lite" value="false"/>
     <arg name="cluster_radius" value="2.7"/>
     <param name="cluster_radius" value="$(arg cluster_radius)"/>

@@ -3,6 +3,7 @@ log/
 data_test.db
 data_test.db-shm
 data_test.db-wal
+data_test.zip
 worlds/
 **/__pycache__/
 **/figures/

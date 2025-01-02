@@ -220,18 +220,22 @@ if __name__ == '__main__':
     log_path = f'{package_dir}/log'
     EXPLORE_LITE = rospy.get_param('/explore-lite')
     world_name = rospy.get_param('/world')
+    semantic_bonus = None
 
     l = logging()
     method = ""
     if EXPLORE_LITE and semantic_flag=='off': method = 'el'
     else:
-        if   semantic_flag=='bonus': method = 'sem1' 
-        elif semantic_flag=='cut'  : method = 'sem2'
+        if semantic_flag=='bonus': 
+            method = 'sem1'
+            semantic_bonus = rospy.get_param('/semantic_bonus')
+        elif semantic_flag=='cut': method = 'sem2'
     LOG_FILE = open(
         f'{log_path}/{execution_nr}_{world_name}_{robot_number}_{method}.txt',
         'a'
     )
-    l.str = f'ESECUZIONE {execution_nr} SULLA MAPPA {world_name} CON {robot_number} E METODO {method}\n' 
+    l.str = f'ESECUZIONE {execution_nr} SULLA MAPPA {world_name} CON {robot_number} E METODO {method}'
+    l.str += f'[{semantic_bonus}]\n' if semantic_bonus else '\n'
     logger(l)
 
     rospy.Subscriber('/logger', logging, logger)

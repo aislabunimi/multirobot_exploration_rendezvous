@@ -75,7 +75,7 @@ class SingleRun:
         object.__setattr__(self,name,value)
 
     def __repr__(self):
-        return f'Esecuzione {self.ex}'
+        return f'Esecuzione {self.ex}: {self.get_robot_nr()} robot'
 
     def get_robot_nr(self):
         return self.robot_nr
