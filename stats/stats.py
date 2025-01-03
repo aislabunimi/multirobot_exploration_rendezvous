@@ -350,6 +350,12 @@ class TestSet:
     def get_perc_areas_stats(self, aggregate_func):
         res = self.get_perc_areas()
         return {method:aggregate_func(res[method]) for method in res}
+    
+    def get_boxplot_times(self):
+        times = self.get_rendezvous_times()
+        plt.boxplot([times[method] for method in times])
+        plt.xticks(range(1,len(times)+1), self.methods)
+        plt.grid(True)
 
     def __repr__(self):
         return f'{self.data}'
