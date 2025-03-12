@@ -4,6 +4,7 @@ data_test.db
 data_test.db-shm
 data_test.db-wal
 data_test.zip
+data_test_3090.zip
 worlds/
 **/__pycache__/
 **/figures/
