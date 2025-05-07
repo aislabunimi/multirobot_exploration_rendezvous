@@ -34,7 +34,8 @@ class SingleRun:
         #self.conn = 'sqlite:////data_test.db'
         self.exec = pd.read_sql(f'SELECT * FROM Executions WHERE id={ex}', self.conn)
         self.robot_nr = self.exec['robot_nr'][0]
-        self.rendezvous = bool(self.exec['rendezvous'][0])
+        self.rendezvous = self.exec['rendezvous'][0]==1
+        self.run_error = self.exec['rendezvous'][0]==2 #True se la run non è terminata correttamente
         self.where = f'WHERE execution={ex}'
         self.positions = None
         self.clustering = None
@@ -176,7 +177,7 @@ class SingleRun:
         n = self.get_robot_nr()
         tmp = self.clustering[self.clustering['max']==n]['time']
         if not self.is_rendezvous():
-            return None
+            return self.get_last_time()-self.get_start_time() if self.run_error else None
         last_time = tmp.iloc[0]
         return last_time - self.get_start_time()
     
@@ -355,6 +356,12 @@ class TestSet:
         times = self.get_rendezvous_times()
         plt.boxplot([times[method] for method in times], vert=False)
         plt.yticks(range(1,len(times)+1), self.methods)
+        plt.grid(True)
+    
+    def get_boxplot_perc_areas(self):
+        areas = self.get_perc_areas()
+        plt.boxplot([areas[method] for method in areas], vert=False)
+        plt.yticks(range(1,len(areas)+1), self.methods)
         plt.grid(True)
 
     def __repr__(self):
