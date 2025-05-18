@@ -170,6 +170,18 @@ def updateGoal(_):
     if len(all_frontiers)==0: #frontiere vuote
         if last_try: #ha provato a girarsi ma niente, termino exploration
             print(f'[{robot_id}] frontiere finite')
+            add_final_map(
+                execution_nr,
+                robot_id+1,
+                base64.b64encode(
+                    zlib.compress(
+                        pickle.dumps(
+                            object_to_dict(rospy.wait_for_message(f'/robot{robot_id+1}/map', OccupancyGrid))
+                        )
+                    )
+                ).decode('ascii'),
+                rospy.get_time()
+            )
             delete_markers()
             return
         turn_around()
@@ -475,7 +487,7 @@ if __name__ == '__main__':
 
     while not rosnode.rosnode_ping(f'/pos_aggregator', max_count=1, verbose=False): #aspetto pos_aggregator
         time.sleep(.5)
-
+        
     cur = conn.cursor()
     execution_nr = None
     while execution_nr is None:
@@ -565,4 +577,5 @@ if __name__ == '__main__':
     time.sleep(2)
     updateGoal(0)
 
+    rospy.on_shutdown()
     rospy.spin()

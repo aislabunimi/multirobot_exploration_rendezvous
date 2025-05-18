@@ -1,0 +1,471 @@
+... logging to /home/aislab/.ros/log/b276df8e-3389-11f0-9e3b-13ecf77e4711/roslaunch-aislab-hp-omen-3516324.log
+Checking log directory for disk usage. This may take a while.
+Press Ctrl-C to interrupt
+]2;/home/aislab/Documents/Tellaroli/test_ws/src/journal_rendezvous/launch/test_3_FBE_big_3R.launch
+[1mstarted roslaunch server http://aislab-hp-omen:42077/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /cluster_radius: 8.1
+ * /explore-lite: True
+ * /gazebo/enable_ros_network: True
+ * /robot1/explore/costmap_topic: /robot1/map
+ * /robot1/explore/costmap_updates_topic: /robot1/map_updates
+ * /robot1/explore/gain_scale: 1.0
+ * /robot1/explore/min_frontier_size: 1.5
+ * /robot1/explore/orientation_scale: 0.0
+ * /robot1/explore/planner_frequency: 1
+ * /robot1/explore/potential_scale: 3.0
+ * /robot1/explore/progress_timeout: 100000
+ * /robot1/explore/robot_base_frame: /robot1/base_link
+ * /robot1/explore/transform_tolerance: 0.3
+ * /robot1/explore/visualize: True
+ * /robot1/laser_filter/scan_filter_chain: [{'name': 'range'...
+ * /robot1/map_merge/init_pose_x: -37
+ * /robot1/map_merge/init_pose_y: 22
+ * /robot1/map_merge/init_pose_yaw: 0
+ * /robot1/map_merge/init_pose_z: 0
+ * /robot1/move_base/DWAPlannerROS/acc_lim_theta: 3.2
+ * /robot1/move_base/DWAPlannerROS/acc_lim_x: 2.5
+ * /robot1/move_base/DWAPlannerROS/acc_lim_y: 0.0
+ * /robot1/move_base/DWAPlannerROS/controller_frequency: 10.0
+ * /robot1/move_base/DWAPlannerROS/forward_point_distance: 0.325
+ * /robot1/move_base/DWAPlannerROS/goal_distance_bias: 15.0
+ * /robot1/move_base/DWAPlannerROS/latch_xy_goal_tolerance: True
+ * /robot1/move_base/DWAPlannerROS/max_scaling_factor: 0.2
+ * /robot1/move_base/DWAPlannerROS/max_vel_theta: 2.75
+ * /robot1/move_base/DWAPlannerROS/max_vel_trans: 0.3
+ * /robot1/move_base/DWAPlannerROS/max_vel_x: 0.3
+ * /robot1/move_base/DWAPlannerROS/max_vel_y: 0.0
+ * /robot1/move_base/DWAPlannerROS/min_vel_theta: 1.37
+ * /robot1/move_base/DWAPlannerROS/min_vel_trans: 0.11
+ * /robot1/move_base/DWAPlannerROS/min_vel_x: -0.3
+ * /robot1/move_base/DWAPlannerROS/min_vel_y: 0.0
+ * /robot1/move_base/DWAPlannerROS/occdist_scale: 0.02
+ * /robot1/move_base/DWAPlannerROS/oscillation_reset_dist: 0.05
+ * /robot1/move_base/DWAPlannerROS/path_distance_bias: 32.0
+ * /robot1/move_base/DWAPlannerROS/publish_cost_grid_pc: True
+ * /robot1/move_base/DWAPlannerROS/publish_traj_pc: True
+ * /robot1/move_base/DWAPlannerROS/scaling_speed: 0.25
+ * /robot1/move_base/DWAPlannerROS/sim_granularity: 0.025
+ * /robot1/move_base/DWAPlannerROS/sim_time: 2.5
+ * /robot1/move_base/DWAPlannerROS/stop_time_buffer: 0.2
+ * /robot1/move_base/DWAPlannerROS/vth_samples: 40
+ * /robot1/move_base/DWAPlannerROS/vx_samples: 20
+ * /robot1/move_base/DWAPlannerROS/vy_samples: 0
+ * /robot1/move_base/DWAPlannerROS/xy_goal_tolerance: 0.4
+ * /robot1/move_base/DWAPlannerROS/yaw_goal_tolerance: 1.57
+ * /robot1/move_base/GlobalPlanner/cost_factor: 0.55
+ * /robot1/move_base/GlobalPlanner/lethal_cost: 230
+ * /robot1/move_base/GlobalPlanner/neutral_cost: 66
+ * /robot1/move_base/GlobalPlanner/visualize_potential: True
+ * /robot1/move_base/base_global_planner: global_planner/Gl...
+ * /robot1/move_base/base_local_planner: dwa_local_planner...
+ * /robot1/move_base/conservative_reset_dist: 3.0
+ * /robot1/move_base/controller_frequency: 3
+ * /robot1/move_base/controller_patience: 8
+ * /robot1/move_base/global_costmap/cost_scaling_factor: 5
+ * /robot1/move_base/global_costmap/footprint: [[-0.105, -0.105]...
+ * /robot1/move_base/global_costmap/global_frame: robot1/map
+ * /robot1/move_base/global_costmap/inflation_radius: 0.5
+ * /robot1/move_base/global_costmap/map_type: costmap
+ * /robot1/move_base/global_costmap/observation_sources: scan
+ * /robot1/move_base/global_costmap/obstacle_range: 9.3
+ * /robot1/move_base/global_costmap/publish_frequency: 10.0
+ * /robot1/move_base/global_costmap/raytrace_range: 9.7
+ * /robot1/move_base/global_costmap/robot_base_frame: robot1/base_footp...
+ * /robot1/move_base/global_costmap/scan/clearing: True
+ * /robot1/move_base/global_costmap/scan/data_type: LaserScan
+ * /robot1/move_base/global_costmap/scan/marking: True
+ * /robot1/move_base/global_costmap/scan/sensor_frame: base_scan
+ * /robot1/move_base/global_costmap/scan/topic: scan
+ * /robot1/move_base/global_costmap/static_map: True
+ * /robot1/move_base/global_costmap/transform_tolerance: 0.5
+ * /robot1/move_base/global_costmap/update_frequency: 10.0
+ * /robot1/move_base/local_costmap/cost_scaling_factor: 5
+ * /robot1/move_base/local_costmap/footprint: [[-0.105, -0.105]...
+ * /robot1/move_base/local_costmap/global_frame: robot1/odom
+ * /robot1/move_base/local_costmap/height: 5
+ * /robot1/move_base/local_costmap/inflation_radius: 0.5
+ * /robot1/move_base/local_costmap/map_type: costmap
+ * /robot1/move_base/local_costmap/observation_sources: scan
+ * /robot1/move_base/local_costmap/obstacle_range: 9.3
+ * /robot1/move_base/local_costmap/publish_frequency: 10.0
+ * /robot1/move_base/local_costmap/raytrace_range: 9.7
+ * /robot1/move_base/local_costmap/resolution: 0.05
+ * /robot1/move_base/local_costmap/robot_base_frame: robot1/base_footp...
+ * /robot1/move_base/local_costmap/rolling_window: True
+ * /robot1/move_base/local_costmap/scan/clearing: True
+ * /robot1/move_base/local_costmap/scan/data_type: LaserScan
+ * /robot1/move_base/local_costmap/scan/marking: True
+ * /robot1/move_base/local_costmap/scan/sensor_frame: robot1/base_scan
+ * /robot1/move_base/local_costmap/scan/topic: scan
+ * /robot1/move_base/local_costmap/static_map: False
+ * /robot1/move_base/local_costmap/transform_tolerance: 0.5
+ * /robot1/move_base/local_costmap/update_frequency: 10.0
+ * /robot1/move_base/local_costmap/width: 5
+ * /robot1/move_base/oscillation_distance: 0.3
+ * /robot1/move_base/oscillation_timeout: 10.0
+ * /robot1/move_base/planner_frequency: 2
+ * /robot1/move_base/planner_patience: 3
+ * /robot1/move_base/shutdown_costmaps: False
+ * /robot1/robot_description: <?xml version="1....
+ * /robot1/tf_prefix: robot1
+ * /robot1/turtlebot3_slam_gmapping/angularUpdate: 0.2
+ * /robot1/turtlebot3_slam_gmapping/astep: 0.05
+ * /robot1/turtlebot3_slam_gmapping/base_frame: /robot1/base_foot...
+ * /robot1/turtlebot3_slam_gmapping/delta: 0.05
+ * /robot1/turtlebot3_slam_gmapping/iterations: 5
+ * /robot1/turtlebot3_slam_gmapping/kernelSize: 1
+ * /robot1/turtlebot3_slam_gmapping/lasamplerange: 0.005
+ * /robot1/turtlebot3_slam_gmapping/lasamplestep: 0.005
+ * /robot1/turtlebot3_slam_gmapping/linearUpdate: 0.3
+ * /robot1/turtlebot3_slam_gmapping/llsamplerange: 0.01
+ * /robot1/turtlebot3_slam_gmapping/llsamplestep: 0.01
+ * /robot1/turtlebot3_slam_gmapping/lsigma: 0.075
+ * /robot1/turtlebot3_slam_gmapping/lskip: 0
+ * /robot1/turtlebot3_slam_gmapping/lstep: 0.05
+ * /robot1/turtlebot3_slam_gmapping/map_frame: /robot1/map
+ * /robot1/turtlebot3_slam_gmapping/map_update_interval: 2.0
+ * /robot1/turtlebot3_slam_gmapping/maxRange: 10
+ * /robot1/turtlebot3_slam_gmapping/maxUrange: 9.6
+ * /robot1/turtlebot3_slam_gmapping/minimumScore: 50
+ * /robot1/turtlebot3_slam_gmapping/odom_frame: /robot1/odom
+ * /robot1/turtlebot3_slam_gmapping/ogain: 3.0
+ * /robot1/turtlebot3_slam_gmapping/particles: 30
+ * /robot1/turtlebot3_slam_gmapping/resampleThreshold: 0.5
+ * /robot1/turtlebot3_slam_gmapping/sigma: 0.05
+ * /robot1/turtlebot3_slam_gmapping/srr: 0.1
+ * /robot1/turtlebot3_slam_gmapping/srt: 0.2
+ * /robot1/turtlebot3_slam_gmapping/str: 0.1
+ * /robot1/turtlebot3_slam_gmapping/stt: 0.2
+ * /robot1/turtlebot3_slam_gmapping/temporalUpdate: 0.3
+ * /robot1/turtlebot3_slam_gmapping/xmax: 10.0
+ * /robot1/turtlebot3_slam_gmapping/xmin: -10.0
+ * /robot1/turtlebot3_slam_gmapping/ymax: 10.0
+ * /robot1/turtlebot3_slam_gmapping/ymin: -10.0
+ * /robot2/explore/costmap_topic: /robot2/map
+ * /robot2/explore/costmap_updates_topic: /robot2/map_updates
+ * /robot2/explore/gain_scale: 1.0
+ * /robot2/explore/min_frontier_size: 1.5
+ * /robot2/explore/orientation_scale: 0.0
+ * /robot2/explore/planner_frequency: 1
+ * /robot2/explore/potential_scale: 3.0
+ * /robot2/explore/progress_timeout: 100000
+ * /robot2/explore/robot_base_frame: /robot2/base_link
+ * /robot2/explore/transform_tolerance: 0.3
+ * /robot2/explore/visualize: True
+ * /robot2/laser_filter/scan_filter_chain: [{'name': 'range'...
+ * /robot2/map_merge/init_pose_x: -5
+ * /robot2/map_merge/init_pose_y: 23
+ * /robot2/map_merge/init_pose_yaw: 0
+ * /robot2/map_merge/init_pose_z: 0
+ * /robot2/move_base/DWAPlannerROS/acc_lim_theta: 3.2
+ * /robot2/move_base/DWAPlannerROS/acc_lim_x: 2.5
+ * /robot2/move_base/DWAPlannerROS/acc_lim_y: 0.0
+ * /robot2/move_base/DWAPlannerROS/controller_frequency: 10.0
+ * /robot2/move_base/DWAPlannerROS/forward_point_distance: 0.325
+ * /robot2/move_base/DWAPlannerROS/goal_distance_bias: 15.0
+ * /robot2/move_base/DWAPlannerROS/latch_xy_goal_tolerance: True
+ * /robot2/move_base/DWAPlannerROS/max_scaling_factor: 0.2
+ * /robot2/move_base/DWAPlannerROS/max_vel_theta: 2.75
+ * /robot2/move_base/DWAPlannerROS/max_vel_trans: 0.3
+ * /robot2/move_base/DWAPlannerROS/max_vel_x: 0.3
+ * /robot2/move_base/DWAPlannerROS/max_vel_y: 0.0
+ * /robot2/move_base/DWAPlannerROS/min_vel_theta: 1.37
+ * /robot2/move_base/DWAPlannerROS/min_vel_trans: 0.11
+ * /robot2/move_base/DWAPlannerROS/min_vel_x: -0.3
+ * /robot2/move_base/DWAPlannerROS/min_vel_y: 0.0
+ * /robot2/move_base/DWAPlannerROS/occdist_scale: 0.02
+ * /robot2/move_base/DWAPlannerROS/oscillation_reset_dist: 0.05
+ * /robot2/move_base/DWAPlannerROS/path_distance_bias: 32.0
+ * /robot2/move_base/DWAPlannerROS/publish_cost_grid_pc: True
+ * /robot2/move_base/DWAPlannerROS/publish_traj_pc: True
+ * /robot2/move_base/DWAPlannerROS/scaling_speed: 0.25
+ * /robot2/move_base/DWAPlannerROS/sim_granularity: 0.025
+ * /robot2/move_base/DWAPlannerROS/sim_time: 2.5
+ * /robot2/move_base/DWAPlannerROS/stop_time_buffer: 0.2
+ * /robot2/move_base/DWAPlannerROS/vth_samples: 40
+ * /robot2/move_base/DWAPlannerROS/vx_samples: 20
+ * /robot2/move_base/DWAPlannerROS/vy_samples: 0
+ * /robot2/move_base/DWAPlannerROS/xy_goal_tolerance: 0.4
+ * /robot2/move_base/DWAPlannerROS/yaw_goal_tolerance: 1.57
+ * /robot2/move_base/GlobalPlanner/cost_factor: 0.55
+ * /robot2/move_base/GlobalPlanner/lethal_cost: 230
+ * /robot2/move_base/GlobalPlanner/neutral_cost: 66
+ * /robot2/move_base/GlobalPlanner/visualize_potential: True
+ * /robot2/move_base/base_global_planner: global_planner/Gl...
+ * /robot2/move_base/base_local_planner: dwa_local_planner...
+ * /robot2/move_base/conservative_reset_dist: 3.0
+ * /robot2/move_base/controller_frequency: 3
+ * /robot2/move_base/controller_patience: 8
+ * /robot2/move_base/global_costmap/cost_scaling_factor: 5
+ * /robot2/move_base/global_costmap/footprint: [[-0.105, -0.105]...
+ * /robot2/move_base/global_costmap/global_frame: robot2/map
+ * /robot2/move_base/global_costmap/inflation_radius: 0.5
+ * /robot2/move_base/global_costmap/map_type: costmap
+ * /robot2/move_base/global_costmap/observation_sources: scan
+ * /robot2/move_base/global_costmap/obstacle_range: 9.3
+ * /robot2/move_base/global_costmap/publish_frequency: 10.0
+ * /robot2/move_base/global_costmap/raytrace_range: 9.7
+ * /robot2/move_base/global_costmap/robot_base_frame: robot2/base_footp...
+ * /robot2/move_base/global_costmap/scan/clearing: True
+ * /robot2/move_base/global_costmap/scan/data_type: LaserScan
+ * /robot2/move_base/global_costmap/scan/marking: True
+ * /robot2/move_base/global_costmap/scan/sensor_frame: base_scan
+ * /robot2/move_base/global_costmap/scan/topic: scan
+ * /robot2/move_base/global_costmap/static_map: True
+ * /robot2/move_base/global_costmap/transform_tolerance: 0.5
+ * /robot2/move_base/global_costmap/update_frequency: 10.0
+ * /robot2/move_base/local_costmap/cost_scaling_factor: 5
+ * /robot2/move_base/local_costmap/footprint: [[-0.105, -0.105]...
+ * /robot2/move_base/local_costmap/global_frame: robot2/odom
+ * /robot2/move_base/local_costmap/height: 5
+ * /robot2/move_base/local_costmap/inflation_radius: 0.5
+ * /robot2/move_base/local_costmap/map_type: costmap
+ * /robot2/move_base/local_costmap/observation_sources: scan
+ * /robot2/move_base/local_costmap/obstacle_range: 9.3
+ * /robot2/move_base/local_costmap/publish_frequency: 10.0
+ * /robot2/move_base/local_costmap/raytrace_range: 9.7
+ * /robot2/move_base/local_costmap/resolution: 0.05
+ * /robot2/move_base/local_costmap/robot_base_frame: robot2/base_footp...
+ * /robot2/move_base/local_costmap/rolling_window: True
+ * /robot2/move_base/local_costmap/scan/clearing: True
+ * /robot2/move_base/local_costmap/scan/data_type: LaserScan
+ * /robot2/move_base/local_costmap/scan/marking: True
+ * /robot2/move_base/local_costmap/scan/sensor_frame: robot2/base_scan
+ * /robot2/move_base/local_costmap/scan/topic: scan
+ * /robot2/move_base/local_costmap/static_map: False
+ * /robot2/move_base/local_costmap/transform_tolerance: 0.5
+ * /robot2/move_base/local_costmap/update_frequency: 10.0
+ * /robot2/move_base/local_costmap/width: 5
+ * /robot2/move_base/oscillation_distance: 0.3
+ * /robot2/move_base/oscillation_timeout: 10.0
+ * /robot2/move_base/planner_frequency: 2
+ * /robot2/move_base/planner_patience: 3
+ * /robot2/move_base/shutdown_costmaps: False
+ * /robot2/robot_description: <?xml version="1....
+ * /robot2/tf_prefix: robot2
+ * /robot2/turtlebot3_slam_gmapping/angularUpdate: 0.2
+ * /robot2/turtlebot3_slam_gmapping/astep: 0.05
+ * /robot2/turtlebot3_slam_gmapping/base_frame: /robot2/base_foot...
+ * /robot2/turtlebot3_slam_gmapping/delta: 0.05
+ * /robot2/turtlebot3_slam_gmapping/iterations: 5
+ * /robot2/turtlebot3_slam_gmapping/kernelSize: 1
+ * /robot2/turtlebot3_slam_gmapping/lasamplerange: 0.005
+ * /robot2/turtlebot3_slam_gmapping/lasamplestep: 0.005
+ * /robot2/turtlebot3_slam_gmapping/linearUpdate: 0.3
+ * /robot2/turtlebot3_slam_gmapping/llsamplerange: 0.01
+ * /robot2/turtlebot3_slam_gmapping/llsamplestep: 0.01
+ * /robot2/turtlebot3_slam_gmapping/lsigma: 0.075
+ * /robot2/turtlebot3_slam_gmapping/lskip: 0
+ * /robot2/turtlebot3_slam_gmapping/lstep: 0.05
+ * /robot2/turtlebot3_slam_gmapping/map_frame: /robot2/map
+ * /robot2/turtlebot3_slam_gmapping/map_update_interval: 2.0
+ * /robot2/turtlebot3_slam_gmapping/maxRange: 10
+ * /robot2/turtlebot3_slam_gmapping/maxUrange: 9.6
+ * /robot2/turtlebot3_slam_gmapping/minimumScore: 50
+ * /robot2/turtlebot3_slam_gmapping/odom_frame: /robot2/odom
+ * /robot2/turtlebot3_slam_gmapping/ogain: 3.0
+ * /robot2/turtlebot3_slam_gmapping/particles: 30
+ * /robot2/turtlebot3_slam_gmapping/resampleThreshold: 0.5
+ * /robot2/turtlebot3_slam_gmapping/sigma: 0.05
+ * /robot2/turtlebot3_slam_gmapping/srr: 0.1
+ * /robot2/turtlebot3_slam_gmapping/srt: 0.2
+ * /robot2/turtlebot3_slam_gmapping/str: 0.1
+ * /robot2/turtlebot3_slam_gmapping/stt: 0.2
+ * /robot2/turtlebot3_slam_gmapping/temporalUpdate: 0.3
+ * /robot2/turtlebot3_slam_gmapping/xmax: 10.0
+ * /robot2/turtlebot3_slam_gmapping/xmin: -10.0
+ * /robot2/turtlebot3_slam_gmapping/ymax: 10.0
+ * /robot2/turtlebot3_slam_gmapping/ymin: -10.0
+ * /robot3/explore/costmap_topic: /robot3/map
+ * /robot3/explore/costmap_updates_topic: /robot3/map_updates
+ * /robot3/explore/gain_scale: 1.0
+ * /robot3/explore/min_frontier_size: 1.5
+ * /robot3/explore/orientation_scale: 0.0
+ * /robot3/explore/planner_frequency: 1
+ * /robot3/explore/potential_scale: 3.0
+ * /robot3/explore/progress_timeout: 100000
+ * /robot3/explore/robot_base_frame: /robot3/base_link
+ * /robot3/explore/transform_tolerance: 0.3
+ * /robot3/explore/visualize: True
+ * /robot3/laser_filter/scan_filter_chain: [{'name': 'range'...
+ * /robot3/map_merge/init_pose_x: 42
+ * /robot3/map_merge/init_pose_y: 27
+ * /robot3/map_merge/init_pose_yaw: 0
+ * /robot3/map_merge/init_pose_z: 0
+ * /robot3/move_base/DWAPlannerROS/acc_lim_theta: 3.2
+ * /robot3/move_base/DWAPlannerROS/acc_lim_x: 2.5
+ * /robot3/move_base/DWAPlannerROS/acc_lim_y: 0.0
+ * /robot3/move_base/DWAPlannerROS/controller_frequency: 10.0
+ * /robot3/move_base/DWAPlannerROS/forward_point_distance: 0.325
+ * /robot3/move_base/DWAPlannerROS/goal_distance_bias: 15.0
+ * /robot3/move_base/DWAPlannerROS/latch_xy_goal_tolerance: True
+ * /robot3/move_base/DWAPlannerROS/max_scaling_factor: 0.2
+ * /robot3/move_base/DWAPlannerROS/max_vel_theta: 2.75
+ * /robot3/move_base/DWAPlannerROS/max_vel_trans: 0.3
+ * /robot3/move_base/DWAPlannerROS/max_vel_x: 0.3
+ * /robot3/move_base/DWAPlannerROS/max_vel_y: 0.0
+ * /robot3/move_base/DWAPlannerROS/min_vel_theta: 1.37
+ * /robot3/move_base/DWAPlannerROS/min_vel_trans: 0.11
+ * /robot3/move_base/DWAPlannerROS/min_vel_x: -0.3
+ * /robot3/move_base/DWAPlannerROS/min_vel_y: 0.0
+ * /robot3/move_base/DWAPlannerROS/occdist_scale: 0.02
+ * /robot3/move_base/DWAPlannerROS/oscillation_reset_dist: 0.05
+ * /robot3/move_base/DWAPlannerROS/path_distance_bias: 32.0
+ * /robot3/move_base/DWAPlannerROS/publish_cost_grid_pc: True
+ * /robot3/move_base/DWAPlannerROS/publish_traj_pc: True
+ * /robot3/move_base/DWAPlannerROS/scaling_speed: 0.25
+ * /robot3/move_base/DWAPlannerROS/sim_granularity: 0.025
+ * /robot3/move_base/DWAPlannerROS/sim_time: 2.5
+ * /robot3/move_base/DWAPlannerROS/stop_time_buffer: 0.2
+ * /robot3/move_base/DWAPlannerROS/vth_samples: 40
+ * /robot3/move_base/DWAPlannerROS/vx_samples: 20
+ * /robot3/move_base/DWAPlannerROS/vy_samples: 0
+ * /robot3/move_base/DWAPlannerROS/xy_goal_tolerance: 0.4
+ * /robot3/move_base/DWAPlannerROS/yaw_goal_tolerance: 1.57
+ * /robot3/move_base/GlobalPlanner/cost_factor: 0.55
+ * /robot3/move_base/GlobalPlanner/lethal_cost: 230
+ * /robot3/move_base/GlobalPlanner/neutral_cost: 66
+ * /robot3/move_base/GlobalPlanner/visualize_potential: True
+ * /robot3/move_base/base_global_planner: global_planner/Gl...
+ * /robot3/move_base/base_local_planner: dwa_local_planner...
+ * /robot3/move_base/conservative_reset_dist: 3.0
+ * /robot3/move_base/controller_frequency: 3
+ * /robot3/move_base/controller_patience: 8
+ * /robot3/move_base/global_costmap/cost_scaling_factor: 5
+ * /robot3/move_base/global_costmap/footprint: [[-0.105, -0.105]...
+ * /robot3/move_base/global_costmap/global_frame: robot3/map
+ * /robot3/move_base/global_costmap/inflation_radius: 0.5
+ * /robot3/move_base/global_costmap/map_type: costmap
+ * /robot3/move_base/global_costmap/observation_sources: scan
+ * /robot3/move_base/global_costmap/obstacle_range: 9.3
+ * /robot3/move_base/global_costmap/publish_frequency: 10.0
+ * /robot3/move_base/global_costmap/raytrace_range: 9.7
+ * /robot3/move_base/global_costmap/robot_base_frame: robot3/base_footp...
+ * /robot3/move_base/global_costmap/scan/clearing: True
+ * /robot3/move_base/global_costmap/scan/data_type: LaserScan
+ * /robot3/move_base/global_costmap/scan/marking: True
+ * /robot3/move_base/global_costmap/scan/sensor_frame: base_scan
+ * /robot3/move_base/global_costmap/scan/topic: scan
+ * /robot3/move_base/global_costmap/static_map: True
+ * /robot3/move_base/global_costmap/transform_tolerance: 0.5
+ * /robot3/move_base/global_costmap/update_frequency: 10.0
+ * /robot3/move_base/local_costmap/cost_scaling_factor: 5
+ * /robot3/move_base/local_costmap/footprint: [[-0.105, -0.105]...
+ * /robot3/move_base/local_costmap/global_frame: robot3/odom
+ * /robot3/move_base/local_costmap/height: 5
+ * /robot3/move_base/local_costmap/inflation_radius: 0.5
+ * /robot3/move_base/local_costmap/map_type: costmap
+ * /robot3/move_base/local_costmap/observation_sources: scan
+ * /robot3/move_base/local_costmap/obstacle_range: 9.3
+ * /robot3/move_base/local_costmap/publish_frequency: 10.0
+ * /robot3/move_base/local_costmap/raytrace_range: 9.7
+ * /robot3/move_base/local_costmap/resolution: 0.05
+ * /robot3/move_base/local_costmap/robot_base_frame: robot3/base_footp...
+ * /robot3/move_base/local_costmap/rolling_window: True
+ * /robot3/move_base/local_costmap/scan/clearing: True
+ * /robot3/move_base/local_costmap/scan/data_type: LaserScan
+ * /robot3/move_base/local_costmap/scan/marking: True
+ * /robot3/move_base/local_costmap/scan/sensor_frame: robot3/base_scan
+ * /robot3/move_base/local_costmap/scan/topic: scan
+ * /robot3/move_base/local_costmap/static_map: False
+ * /robot3/move_base/local_costmap/transform_tolerance: 0.5
+ * /robot3/move_base/local_costmap/update_frequency: 10.0
+ * /robot3/move_base/local_costmap/width: 5
+ * /robot3/move_base/oscillation_distance: 0.3
+ * /robot3/move_base/oscillation_timeout: 10.0
+ * /robot3/move_base/planner_frequency: 2
+ * /robot3/move_base/planner_patience: 3
+ * /robot3/move_base/shutdown_costmaps: False
+ * /robot3/robot_description: <?xml version="1....
+ * /robot3/tf_prefix: robot3
+ * /robot3/turtlebot3_slam_gmapping/angularUpdate: 0.2
+ * /robot3/turtlebot3_slam_gmapping/astep: 0.05
+ * /robot3/turtlebot3_slam_gmapping/base_frame: /robot3/base_foot...
+ * /robot3/turtlebot3_slam_gmapping/delta: 0.05
+ * /robot3/turtlebot3_slam_gmapping/iterations: 5
+ * /robot3/turtlebot3_slam_gmapping/kernelSize: 1
+ * /robot3/turtlebot3_slam_gmapping/lasamplerange: 0.005
+ * /robot3/turtlebot3_slam_gmapping/lasamplestep: 0.005
+ * /robot3/turtlebot3_slam_gmapping/linearUpdate: 0.3
+ * /robot3/turtlebot3_slam_gmapping/llsamplerange: 0.01
+ * /robot3/turtlebot3_slam_gmapping/llsamplestep: 0.01
+ * /robot3/turtlebot3_slam_gmapping/lsigma: 0.075
+ * /robot3/turtlebot3_slam_gmapping/lskip: 0
+ * /robot3/turtlebot3_slam_gmapping/lstep: 0.05
+ * /robot3/turtlebot3_slam_gmapping/map_frame: /robot3/map
+ * /robot3/turtlebot3_slam_gmapping/map_update_interval: 2.0
+ * /robot3/turtlebot3_slam_gmapping/maxRange: 10
+ * /robot3/turtlebot3_slam_gmapping/maxUrange: 9.6
+ * /robot3/turtlebot3_slam_gmapping/minimumScore: 50
+ * /robot3/turtlebot3_slam_gmapping/odom_frame: /robot3/odom
+ * /robot3/turtlebot3_slam_gmapping/ogain: 3.0
+ * /robot3/turtlebot3_slam_gmapping/particles: 30
+ * /robot3/turtlebot3_slam_gmapping/resampleThreshold: 0.5
+ * /robot3/turtlebot3_slam_gmapping/sigma: 0.05
+ * /robot3/turtlebot3_slam_gmapping/srr: 0.1
+ * /robot3/turtlebot3_slam_gmapping/srt: 0.2
+ * /robot3/turtlebot3_slam_gmapping/str: 0.1
+ * /robot3/turtlebot3_slam_gmapping/stt: 0.2
+ * /robot3/turtlebot3_slam_gmapping/temporalUpdate: 0.3
+ * /robot3/turtlebot3_slam_gmapping/xmax: 10.0
+ * /robot3/turtlebot3_slam_gmapping/xmin: -10.0
+ * /robot3/turtlebot3_slam_gmapping/ymax: 10.0
+ * /robot3/turtlebot3_slam_gmapping/ymin: -10.0
+ * /rosdistro: noetic
+ * /rosversion: 1.17.2
+ * /use_sim_time: True
+ * /world: office_big
+
+NODES
+  /
+    cluster (journal_rendezvous/cluster_controller.py)
+    gazebo (gazebo_ros/gzserver)
+    gazebo_gui (gazebo_ros/gzclient)
+    pos_aggregator (journal_rendezvous/pos_aggregator.py)
+    rviz (rviz/rviz)
+    semantic (journal_rendezvous/semantic.py)
+  /robot1/
+    explore (frontier_search/explore)
+    joint_state_publisher (joint_state_publisher/joint_state_publisher)
+    laser_filter (laser_filters/scan_to_scan_filter_chain)
+    move_base (move_base/move_base)
+    move_controller (journal_rendezvous/move_controller.py)
+    positions_bd (journal_rendezvous/pos_broadcast.py)
+    robot_state_publisher (robot_state_publisher/robot_state_publisher)
+    spawn_urdf (gazebo_ros/spawn_model)
+    turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    world_to_robot1_tf_broadcaster (tf/static_transform_publisher)
+  /robot2/
+    explore (frontier_search/explore)
+    joint_state_publisher (joint_state_publisher/joint_state_publisher)
+    laser_filter (laser_filters/scan_to_scan_filter_chain)
+    move_base (move_base/move_base)
+    move_controller (journal_rendezvous/move_controller.py)
+    positions_bd (journal_rendezvous/pos_broadcast.py)
+    robot_state_publisher (robot_state_publisher/robot_state_publisher)
+    spawn_urdf (gazebo_ros/spawn_model)
+    turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    world_to_robot2_tf_broadcaster (tf/static_transform_publisher)
+  /robot3/
+    explore (frontier_search/explore)
+    joint_state_publisher (joint_state_publisher/joint_state_publisher)
+    laser_filter (laser_filters/scan_to_scan_filter_chain)
+    move_base (move_base/move_base)
+    move_controller (journal_rendezvous/move_controller.py)
+    positions_bd (journal_rendezvous/pos_broadcast.py)
+    robot_state_publisher (robot_state_publisher/robot_state_publisher)
+    spawn_urdf (gazebo_ros/spawn_model)
+    turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    world_to_robot3_tf_broadcaster (tf/static_transform_publisher)
+X Error of failed request:  GLXBadDrawable
+  Major opcode of failed request:  152 (GLX)
+  Minor opcode of failed request:  5 (X_GLXMakeCurrent)
+  Serial number of failed request:  60
+  Current serial number in output stream:  60
+[0m[INFO] [1747532695.911728726]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1747532695.913048126]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m

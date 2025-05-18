@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Executions (
     map TEXT,
     robot_nr INTEGER,
     rendezvous INTEGER,
-    notes TEXT
+    notes TEXT --aggiungere la colonna metodo
 );
 
 CREATE TABLE IF NOT EXISTS Positions (
