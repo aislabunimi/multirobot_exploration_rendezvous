@@ -576,6 +576,5 @@ if __name__ == '__main__':
     updateELFrontiers(rospy.wait_for_message('explore/frontiers', MarkerArray)) #aspetta di ricevere le prime frontiere
     time.sleep(2)
     updateGoal(0)
-
-    rospy.on_shutdown()
+    
     rospy.spin()

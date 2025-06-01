@@ -2,7 +2,7 @@
 
     <arg name="how_many_robot" value="3"/>
     <param name="explore-lite" value="false"/>
-    <arg name="cluster_radius" value="2.7"/>
+    <arg name="cluster_radius" value="8.1"/>
     <param name="cluster_radius" value="$(arg cluster_radius)"/>
     <arg name="semantic" value="cut"/>
 
@@ -23,7 +23,7 @@
         <arg name="slam"         value="true"/>
         <arg name="formation"    value="false"/>
         <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="false"/> <!-- !!! -->
+        <arg name="blobbing"     value="true"/>
         <arg name="semantic"     value="$(arg semantic)"/>
     </include>
 
@@ -36,9 +36,9 @@
         <arg name="slam"         value="true"/>
         <arg name="formation"    value="false"/>
         <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="false"/> <!-- !!! -->
+        <arg name="blobbing"     value="true"/>
         <arg name="semantic"     value="$(arg semantic)"/>
-    </include>
+    </include> 
     
     <!-- robot 3 -->
     <include file="$(find journal_rendezvous)/launch/one_robot.launch">
@@ -49,7 +49,7 @@
         <arg name="slam"         value="true"/>
         <arg name="formation"    value="false"/>
         <arg name="exploration"  value="true"/>
-        <arg name="blobbing"     value="false"/> <!-- !!! -->
+        <arg name="blobbing"     value="true"/>
         <arg name="semantic"     value="$(arg semantic)"/>
     </include>
 

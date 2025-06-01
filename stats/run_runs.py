@@ -55,8 +55,8 @@ def make_gif(ex, db_path, map):
 
 if __name__ == '__main__':
 
-    GOAL = 20
-    LAUNCHFILE = "test_3_FBE_big_3R.launch"
+    GOAL = 15
+    LAUNCHFILE = "test_3_sem2_big_3R.launch"
 
     SUCCESS = "RENDEZVOUS!"
     ROSLAUNCH = ["roslaunch","journal_rendezvous",LAUNCHFILE]

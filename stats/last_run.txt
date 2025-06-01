@@ -1,15 +1,15 @@
-... logging to /home/aislab/.ros/log/b276df8e-3389-11f0-9e3b-13ecf77e4711/roslaunch-aislab-hp-omen-3516324.log
+... logging to /home/aislab/.ros/log/b4a86ada-3888-11f0-9e3b-13ecf77e4711/roslaunch-aislab-hp-omen-655370.log
 Checking log directory for disk usage. This may take a while.
 Press Ctrl-C to interrupt
-]2;/home/aislab/Documents/Tellaroli/test_ws/src/journal_rendezvous/launch/test_3_FBE_big_3R.launch
-[1mstarted roslaunch server http://aislab-hp-omen:42077/[0m
+]2;/home/aislab/Documents/Tellaroli/test_ws/src/journal_rendezvous/launch/test_3_sem2_big_3R.launch
+[1mstarted roslaunch server http://aislab-hp-omen:41421/[0m
 
 SUMMARY
 ========
 
 PARAMETERS
  * /cluster_radius: 8.1
- * /explore-lite: True
+ * /explore-lite: False
  * /gazebo/enable_ros_network: True
  * /robot1/explore/costmap_topic: /robot1/map
  * /robot1/explore/costmap_updates_topic: /robot1/map_updates
@@ -439,6 +439,7 @@ NODES
     robot_state_publisher (robot_state_publisher/robot_state_publisher)
     spawn_urdf (gazebo_ros/spawn_model)
     turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    visited_area (journal_rendezvous/blob_area.py)
     world_to_robot1_tf_broadcaster (tf/static_transform_publisher)
   /robot2/
     explore (frontier_search/explore)
@@ -450,6 +451,7 @@ NODES
     robot_state_publisher (robot_state_publisher/robot_state_publisher)
     spawn_urdf (gazebo_ros/spawn_model)
     turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    visited_area (journal_rendezvous/blob_area.py)
     world_to_robot2_tf_broadcaster (tf/static_transform_publisher)
   /robot3/
     explore (frontier_search/explore)
@@ -461,11 +463,62 @@ NODES
     robot_state_publisher (robot_state_publisher/robot_state_publisher)
     spawn_urdf (gazebo_ros/spawn_model)
     turtlebot3_slam_gmapping (gmapping/slam_gmapping)
+    visited_area (journal_rendezvous/blob_area.py)
     world_to_robot3_tf_broadcaster (tf/static_transform_publisher)
-X Error of failed request:  GLXBadDrawable
-  Major opcode of failed request:  152 (GLX)
-  Minor opcode of failed request:  5 (X_GLXMakeCurrent)
-  Serial number of failed request:  60
-  Current serial number in output stream:  60
-[0m[INFO] [1747532695.911728726]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1747532695.913048126]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot2/odom (parent robot2/map) at time 14664.708000 according to authority unknown_publisher         at line 
+277         at line  in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot2/odom (parent robot2/map) at time 14664.708000 according to authority unknown_publisher         at line 
+ in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot2/odom (parent robot2/map) at time 14664.708000 according to authority unknown_publisher
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot2/odom (parent robot2/map) at time 14664.708000 according to authority /robot2/turtlebot3_slam_gmapping
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot1/odom (parent robot1/map) at time 14664.708000 according to authority unknown_publisher
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot1/odom (parent robot1/map) at time 14664.708000 according to authority unknown_publisher
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+TF_REPEATED_DATA ignoring data with redundant timestamp for frame robot3/odom (parent robot3/map) at time 14665.342000 according to authority unknown_publisher
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+
+
+         at line          at line 277         at line  in 277/tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp in 
+/tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+
+         at line          at line 277277 in  in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp/tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+22 1.57119
+-0.130529
+11.0611 -3.02419
+0.0324726
+
+-2.74166 -0.535122

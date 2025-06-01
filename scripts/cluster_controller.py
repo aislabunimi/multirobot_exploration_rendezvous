@@ -195,7 +195,7 @@ def logger(s):
     LOG_FILE.flush()
 
 if __name__ == '__main__':
-    threshold = float(sys.argv[1]) #se distanza<threshold si forma cluster
+    threshold = float(sys.argv[1]) #se distanza<threshold si forma cluster (d)
     robot_number = int(sys.argv[2]) #numero di robot presenti
     semantic_flag = sys.argv[3]
     #map_control = False

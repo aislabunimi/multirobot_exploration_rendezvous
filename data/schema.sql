@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Clustering (
     time REAL,
     robot INTEGER,
     max INTEGER,
-    map BLOB,
+    map BLOB, --non serve a niente
     points BLOB,
     "union" INTEGER,
     execution INTEGER,
